@@ -1,0 +1,1457 @@
+<h1 id="ipit-20-documentation">iPIT 2.0 Documentation</h1>
+
+
+
+<h1 id="index">Index</h1>
+
+<p><div class="toc">
+<ul>
+<li><a href="#ipit-20-documentation">iPIT 2.0 Documentation</a></li>
+<li><a href="#index">Index</a></li>
+<li><a href="#1-background">1 Background</a><ul>
+<li><a href="#11-about-ipit">1.1 About IPIT</a></li>
+<li><a href="#12-structure-of-ipit-20">1.2 Structure of IPIT 2.0</a></li>
+<li><a href="#13-who-are-involved-in-this-project">1.3 Who are involved in this project?</a></li>
+<li><a href="#14-credentials">1.4 Credentials</a></li>
+</ul>
+</li>
+<li><a href="#2-requirements">2 Requirements</a></li>
+<li><a href="#3-work-flow">3 Work flow</a><ul>
+<li><a href="#31-work-flow-of-a-new-project">3.1 Work flow of a new project</a></li>
+</ul>
+</li>
+<li><a href="#4-components-introduction">4 Components introduction</a><ul>
+<li><a href="#41-host">4.1 Host</a><ul>
+<li><a href="#411-viper-server">4.1.1 Viper Server</a></li>
+<li><a href="#412-virtual-machine">4.1.2 Virtual Machine</a></li>
+<li><a href="#413-contact-person">4.1.3 Contact Person</a></li>
+</ul>
+</li>
+<li><a href="#42-os">4.2 OS</a></li>
+<li><a href="#43-server">4.3 Server</a><ul>
+<li><a href="#431-nginx-configuration">4.3.1 Nginx configuration</a></li>
+</ul>
+</li>
+<li><a href="#44-wsgi">4.4 WSGI</a><ul>
+<li><a href="#441-gunicorn-configuration">4.4.1 Gunicorn configuration</a></li>
+<li><a href="#442-supervisor-configuration">4.4.2 supervisor  configuration</a></li>
+</ul>
+</li>
+<li><a href="#45-python-framwork">4.5 Python Framwork</a><ul>
+<li><a href="#451-flask-configuration">4.5.1 Flask configuration</a></li>
+</ul>
+</li>
+<li><a href="#46-environment">4.6 Environment</a></li>
+<li><a href="#47-data-base">4.7 Data Base</a><ul>
+<li><a href="#471-postgresql-sql-database">4.7.1 Postgresql SQL database</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#5-how-tos">5 How-tos</a><ul>
+<li><a href="#51-for-end-users">5.1 For end users</a><ul>
+<li><a href="#how-to-get-an-ipit-account">How to get an IPIT account?</a></li>
+<li><a href="#how-to-create-a-new-project">How to create a new project?</a></li>
+<li><a href="#how-to-modify-a-project">How to modify a project?</a></li>
+<li><a href="#how-to-delete-a-project">How to delete a project?</a></li>
+<li><a href="#how-to-set-project-request-human-plan">How to set project request Human plan?</a></li>
+<li><a href="#how-to-set-project-request-element-plan">How to set project request Element plan?</a></li>
+<li><a href="#how-to-set-human-allocation-plan">How to set human allocation plan?</a></li>
+</ul>
+</li>
+<li><a href="#52-for-maintenance">5.2 For Maintenance</a><ul>
+<li><a href="#how-to-get-an-viper-account">How to get an Viper account?</a></li>
+<li><a href="#how-to-login-vm-via-ssh">How to login VM via SSH?</a></li>
+<li><a href="#how-to-login-vm-via-console">How to login VM via Console?</a></li>
+<li><a href="#how-to-start-and-stop-ipit-service">How to start and stop iPIT service?</a></li>
+<li><a href="#how-to-rollback-ipit-version">How to rollback iPIT version</a></li>
+<li><a href="#how-to-deploy-a-new-ipit-version">How to deploy a new iPIT version.</a></li>
+<li><a href="#how-to-backup-and-restore-postgresql-db">How to backup and restore Postgresql DB?</a></li>
+<li><a href="#how-to-add-a-new-admin-account">How to add a new admin account?</a><ul>
+<li><a href="#1-use-a-script-tool">1 Use a script tool</a></li>
+<li><a href="#2-via-python-interpreter">2 Via Python interpreter</a></li>
+</ul>
+</li>
+<li><a href="#how-to-delete-an-subscriber">How to delete an subscriber?</a></li>
+</ul>
+</li>
+<li><a href="#53-for-developers">5.3 For Developers</a><ul>
+<li><a href="#how-to-add-a-new-column">How to add a new column.</a><ul>
+<li><a href="#1-add-new-column-to-sql-db">1 Add new column to SQL DB</a></li>
+<li><a href="#2-add-input-field-to-employeesinglehtml-file">2 Add input field to employee_single.html file.</a></li>
+<li><a href="#3-change-support-function-getemployeebyid">3 Change support function get_employee_byid()</a></li>
+<li><a href="#3-change-page-handler-employeesingle">3 Change page handler employee_single</a></li>
+<li><a href="#4-change-support-function-updateemployee">4 Change support function update_employee()</a></li>
+<li><a href="#5-hide-left-users-from-showing-to-web">5 Hide left users from showing to web.</a></li>
+</ul>
+</li>
+<li><a href="#case-add-element-template-20-oct-2016">Case: Add element template 20-Oct-2016:</a><ul>
+<li><a href="#1-update-sql-design">1 Update SQL design</a></li>
+<li><a href="#2-update-databasesetuppy">2 Update database_setup.py</a></li>
+<li><a href="#3-write-sql-statement-to-update-current-postgresql-sql">3 Write SQL statement to update current Postgresql sql.</a></li>
+<li><a href="#4-add-a-new-tag-called-element-templates-to-navigation-bar-in-basehtml">4 Add a new tag called “Element Templates” to Navigation bar in base.html</a></li>
+<li><a href="#5-add-new-html-templates-elementtemplateshtml">5 Add new html templates element_templates.html</a></li>
+<li><a href="#6-add-page-handler-for-elementtemplates">6 Add page handler for /element_templates</a></li>
+<li><a href="#7-add-new-html-templates-templatesinglehtml">7 Add new html templates template_single.html</a></li>
+<li><a href="#8-add-page-handler-for-elementtemplatetplid">8 Add page handler for /element_template_<tpl_id></tpl_id></a></li>
+<li><a href="#9-add-new-html-templates-newelementtemplatehtml">9 Add new html templates new_element_template.html</a></li>
+<li><a href="#10-add-page-handler-for-newelementtemplate">10 Add page handler for /new_element_template</a></li>
+<li><a href="#11-update-page-handler-planedit-allowing-elementtemplate-in-element-plan-editing">11 Update page handler plan_edit allowing element_template in element plan editing</a></li>
+<li><a href="#12-update-html-elementplanedithtml">12 Update html element_plan_edit.html</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#6-todos-for-developer">6 TODOs (For developer)</a></li>
+<li><a href="#7-document-list">7 Document list</a></li>
+<li><a href="#8-some-memo">8 Some memo</a><ul>
+<li><ul>
+<li><ul>
+<li><a href="#naming-convention-differences-between-genxx-and-getxx">Naming convention: differences between gen_xx and get_xx</a></li>
+<li><a href="#difference-between-genxxlist-and-genxx">Difference between gen_xx_list and  gen_xx:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+
+
+<h1 id="1-background">1 Background</h1>
+
+
+
+<h2 id="11-about-ipit">1.1 About IPIT</h2>
+
+<p>IPIT is an IT tool used by my department (KPN Mobile Innovation test). <br>
+Our main role is to work as testers in a test bed (called TTRC) in projects. <br>
+My managers need to assign testers to projects and coordinate different projects sharing the same test environment.</p>
+
+<p>For managers, <strong>basic questions</strong> are:  <br>
+1. What projects is on-going, what are their status? <br>
+2. What are the planned projects? <br>
+3. how much hours do projects ask for in coming weeks? <br>
+4. Who is allocated to which project for how many hours in a certain week. <br>
+5. What machines will be used by a certain project in a certain time? <br>
+etc <br>
+As a summary,  I regard these questions as <strong>How to manage demand data, resource data and supply data.</strong></p>
+
+<p>More advanced questions can be: <br>
+<strong>Efficiency improvements</strong>: <br>
+How to make administration activities faster?  <br>
+e.g If a project has a delay, how to quickly update its plan in IPIT? <br>
+<strong>Optimization questions</strong>: <br>
+e.g. How to best allocate human to projects based on personal skills? <br>
+<strong>Link data up to get more insight</strong>: <br>
+e.g. How to find test conflicts between projects (for example, if your project plan to restart a machine, you want to know who will be using the machine and inform them)</p>
+
+<p>IPIT is the IT tool introduced 2 years ago to handle these management questions. <br>
+Because old IPIT has certain disadvantages, I develop a newer version of IPIT, called <strong><a href="http://10.151.240.137/">IPIT 2.0</a></strong> (below, we call it iPIT)</p>
+
+<p>Below is a compare of them:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Old IPIT</th>
+  <th>IPIT 2.0</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>users access in serial</td>
+  <td>Large amount of parallel user accesses</td>
+</tr>
+<tr>
+  <td>Report generating takes 30 seconds to minutes</td>
+  <td>Takes seconds, mostly &lt; 1 sec</td>
+</tr>
+<tr>
+  <td>All users can read and write all data</td>
+  <td>Different user group has different rights</td>
+</tr>
+<tr>
+  <td>User has to install MS-ACCESS and config</td>
+  <td>User only need a browser</td>
+</tr>
+<tr>
+  <td>User need to learn MS-ACCESS</td>
+  <td>No requirement</td>
+</tr>
+<tr>
+  <td>Slow opening speed</td>
+  <td>Open in 2 sec.</td>
+</tr>
+<tr>
+  <td>Need advance knowledge and much effort to change the data structure</td>
+  <td>Relatively easy to alter tables</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="12-structure-of-ipit-20">1.2 Structure of IPIT 2.0</h2>
+
+<p><a href="http://10.151.240.137/">IPIT 2.0</a> is a web app with the following parts:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Layer</th>
+  <th>Module</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Server Host</td>
+  <td>A virtual machine from KPN Viper.</td>
+</tr>
+<tr>
+  <td>OS</td>
+  <td>Ubuntu Linux 16.04.1 LTS</td>
+</tr>
+<tr>
+  <td>Web Server</td>
+  <td>Nginx 1.10.0</td>
+</tr>
+<tr>
+  <td>WSGI Server</td>
+  <td>Gunicorn 19.4.5</td>
+</tr>
+<tr>
+  <td>Framwork</td>
+  <td>Flask 0.10.1</td>
+</tr>
+<tr>
+  <td>Environment</td>
+  <td>Python 2.7.9</td>
+</tr>
+<tr>
+  <td>Data Base</td>
+  <td>Postgresql SQL9.4.9</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="13-who-are-involved-in-this-project">1.3 Who are involved in this project?</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Name</th>
+  <th>Role</th>
+  <th>Email</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Frank Bol</td>
+  <td>Project Manager</td>
+  <td>frank.bol@kpn.com</td>
+</tr>
+<tr>
+  <td>Dewei Zhai</td>
+  <td>Developer</td>
+  <td>dewei.zhai@kpn.com</td>
+</tr>
+<tr>
+  <td>Jamal Bouzeryouh</td>
+  <td>Linux Consultant</td>
+  <td>jamal.bouzeryouh@kpn.com</td>
+</tr>
+<tr>
+  <td>Ger van Mannen</td>
+  <td>Requester</td>
+  <td>ger.vanmanen@kpn.com</td>
+</tr>
+<tr>
+  <td>Martin Groeneveld</td>
+  <td>Major user as Human manager</td>
+  <td>martin.groeneveld@kpn.com</td>
+</tr>
+<tr>
+  <td>Martin Swaen</td>
+  <td>Major user as Element manager</td>
+  <td>martin.swaen@kpn.com</td>
+</tr>
+</tbody></table>
+
+
+<p><a id="credentials"></a></p>
+
+
+<h2 id="14-credentials">1.4 Credentials</h2>
+
+<p>The credentials are only availabe to admin users.</p>
+
+
+<h1 id="2-requirements">2 Requirements</h1>
+
+<p>Below is the major requirements </p>
+
+<table>
+<thead>
+<tr>
+  <th>Requirement</th>
+  <th>Status</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Web-based</td>
+  <td>meet</td>
+</tr>
+<tr>
+  <td>SQL DB</td>
+  <td>meet</td>
+</tr>
+<tr>
+  <td>inherits old IPIT functions</td>
+  <td>meet</td>
+</tr>
+<tr>
+  <td>User account with different rights</td>
+  <td>meet</td>
+</tr>
+<tr>
+  <td>Make a special project for patch/ upgrading</td>
+  <td>Possible</td>
+</tr>
+<tr>
+  <td>Put elements together in chains</td>
+  <td>To be done</td>
+</tr>
+<tr>
+  <td>Use Knowledge matrix</td>
+  <td>To be done</td>
+</tr>
+<tr>
+  <td>User can customize report columns</td>
+  <td>Rejected, use predefined report</td>
+</tr>
+<tr>
+  <td>Import excel with project coming out of the JiRa tool that is used by the Releasemanager</td>
+  <td>maybe future</td>
+</tr>
+<tr>
+  <td>When updating the use of elements in ipit there should be some kind of notification / summary who is using this element at the same period (user / project) (account: testmanager)</td>
+  <td>To be done</td>
+</tr>
+<tr>
+  <td>Report - Overview about what is going on (month based) based on configuration changes.</td>
+  <td>maybe future</td>
+</tr>
+</tbody></table>
+
+
+<p>As a newbie in web-envelopment, I decide to focus on the most important requirement: <br>
+<strong>Transform the old IPIT into a web based SQL DB with all its current functions.</strong> <br>
+At the time of writing this document, this is realized. <br>
+Then in future releases I can gradually add new fancy features to it. <br>
+Below are several features in my mind:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Feature</th>
+  <th>Explain</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Project Person Match</td>
+  <td>IPIT should auto detect which projects are not satisfied in Human resources and recommend persons for project. And it should find out persons not fully booked and recommend projects</td>
+</tr>
+<tr>
+  <td>Project conflict warning</td>
+  <td>When IPIT sees a project does patch or upgrading an element, it should warn projects that will use the element.</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h1 id="3-work-flow">3 Work flow</h1>
+
+<p><a id="workflow"></a></p>
+
+
+
+<h2 id="31-work-flow-of-a-new-project"><strong>3.1 Work flow of a new project</strong></h2>
+
+<p>1 <strong>Intake</strong>: PM use intake meeting to kick off a new project. <br>
+2 <strong>Create Project</strong>: intake manager or related team leader. <br>
+3 <strong>Request Human hours</strong>: PM or TM edit employee usage plan in IPIT <br>
+4 <strong>Reserve Elements</strong>: PM or TM edit element usage plan in IPIT <br>
+5 <strong>Allocate Human</strong>: team leader (Human resource admin) can see the demand from projects and available hours of team members. He then allocate specific person to the project. <br>
+The project status is all visible during these steps.</p>
+
+
+
+<h1 id="4-components-introduction">4 Components introduction</h1>
+
+
+
+<h2 id="41-host">4.1 Host</h2>
+
+
+
+<h3 id="411-viper-server">4.1.1 Viper Server</h3>
+
+<p><strong>Remote App account</strong> <br>
+See <a href="#credentials">this</a></p>
+
+<p><strong>VMware vSphere Clinet:</strong> <br>
+cpvc-sup02.support.local <br>
+SUPPORT\d.zhai <br>
+use windows session credential</p>
+
+
+
+<h3 id="412-virtual-machine">4.1.2 Virtual Machine</h3>
+
+<p><strong>Virtual Machine</strong> info:</p>
+
+<table>
+<thead>
+<tr>
+  <th>VM Name</th>
+  <th>Cluster    Folder</th>
+  <th>Date</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>IPIT_HOST</td>
+  <td>Frontend/DMZ-cluster   Managed by NIO SP SI&amp;I Test &amp; Implementation(120600)</td>
+  <td>7/11/2016 2:36:23 PM</td>
+</tr>
+</tbody></table>
+
+
+<p><strong>IP</strong> infomation:</p>
+
+
+
+<pre class="prettyprint"><code class="language-shell hljs nginx"><span class="hljs-title">ens160</span>    Link encap:Ethernet  HWaddr <span class="hljs-number">00</span>:<span class="hljs-number">50</span>:<span class="hljs-number">56</span>:8c:6c:7e
+          inet addr:<span class="hljs-number">10.151.240.137</span>  Bcast:<span class="hljs-number">10.151.240.255</span>  Mask:<span class="hljs-number">255.255.255.128</span>
+          inet6 addr: fe80::<span class="hljs-number">250</span>:56ff:fe8c:6c7e/<span class="hljs-number">64</span> Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:<span class="hljs-number">1500</span>  Metric:<span class="hljs-number">1</span>
+          RX packets:<span class="hljs-number">94099</span> errors:<span class="hljs-number">0</span> dropped:<span class="hljs-number">810</span> overruns:<span class="hljs-number">0</span> frame:<span class="hljs-number">0</span>
+          TX packets:<span class="hljs-number">65858</span> errors:<span class="hljs-number">0</span> dropped:<span class="hljs-number">0</span> overruns:<span class="hljs-number">0</span> carrier:<span class="hljs-number">0</span>
+          collisions:<span class="hljs-number">0</span> txqueuelen:<span class="hljs-number">1000</span>
+          RX bytes:<span class="hljs-number">37359360</span> (<span class="hljs-number">37</span>.<span class="hljs-number">3</span> MB)  TX bytes:<span class="hljs-number">40074438</span> (<span class="hljs-number">40</span>.<span class="hljs-number">0</span> MB)</code></pre>
+
+<p><strong>Firewall</strong> opened between VM and T-workstation:</p>
+
+<ul>
+<li>SSH/SFTP</li>
+<li>HTTP</li>
+<li>HTTPS</li>
+</ul>
+
+<p><strong>Hardware Info</strong> <br>
+Memory 4096MB <br>
+CPUs 2 <br>
+Harddisk 104.11GB</p>
+
+<p><a id="vmcred"></a> <br>
+<strong>Credential</strong> <br>
+See <a href="#credentials">this</a></p>
+
+
+
+<h3 id="413-contact-person">4.1.3 Contact Person</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Purpose</th>
+  <th>email</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>For support of Viper Environment</td>
+  <td><a href="viper@kpn.com">viper@kpn.com</a></td>
+</tr>
+<tr>
+  <td>For IP and firewall</td>
+  <td><a href="netwerken-ace-bhn@kpn.com">netwerken-ace-bhn@kpn.com</a></td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="42-os">4.2 OS</h2>
+
+<p>Below is the OS version</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">root@ipitserver:~<span class="hljs-comment"># lsb_release -a</span>
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu <span class="hljs-number">16.04</span> LTS
+Release:        <span class="hljs-number">16.04</span>
+Codename:       xenial</code></pre>
+
+
+
+<h2 id="43-server">4.3 Server</h2>
+
+<p>At first, I didn’t install and config any web server on VM. Just run Python code, it works. But soon I found that opening ipit web page is very slow especially when there is already one page opened. Then I find that the <a href="http://flask.pocoo.org/docs/0.11/deploying/">reason</a> is web server:</p>
+
+<blockquote>
+  <p>While lightweight and easy to use, Flask’s built-in server is not suitable for production as it doesn’t scale well and by default serves <strong>only one request at a time.</strong> </p>
+</blockquote>
+
+<p>With some search, I managed to use below combination: <br>
+<strong>nginx</strong> + <strong>gunicorn</strong> + flask <br>
+This <a href="https://www.quora.com/What-are-the-differences-between-nginx-and-gunicorn">article</a> explained their relationship very well. <br>
+Here is my understanding:</p>
+
+<blockquote>
+  <p>This is like a 3 layer structure: <br>
+  The outside layer is nginx.  <br>
+  It allows concurrent HTTP requests. For each request, nginx assign some resource to handle it. <br>
+  The middle layer is gunicorn. <br>
+  It translate the nginx request to Python Web Server Gateway Interface (WSGI) request. It makes Flask able to talk to nginx. <br>
+  The inside layer is Flask. It is a library that hides low level protocol details and allows me to code in service logic.</p>
+</blockquote>
+
+<p>Below I am going to write down the detail configuration that I do to get them work.</p>
+
+
+
+<h3 id="431-nginx-configuration">4.3.1 Nginx configuration</h3>
+
+<p>On 24-Aug-2016, I finally get Nginx and Gunicorn work together.</p>
+
+<p><strong>1 install nginx via Ubuntu packages:</strong></p>
+
+<blockquote>
+  <p>nginx_1.10.0-0ubuntu0.16.04.2_all.deb <br>
+  nginx-core_1.10.0-0ubuntu0.16.04.2_amd64.deb <br>
+  nginx-common_1.10.0-0ubuntu0.16.04.2_all.deb</p>
+</blockquote>
+
+<p>It is installed in <code>/usr/sbin/nginx</code> with version 1.10.0</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">root@ipitserver:~<span class="hljs-comment"># /usr/sbin/nginx -v</span>
+nginx version: nginx/<span class="hljs-number">1.10</span>.<span class="hljs-number">0</span> (Ubuntu)</code></pre>
+
+<p><strong>2 Write iPIT related information to a conf file called <code>ipit.conf</code></strong></p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs ">server {
+    listen      <span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>:<span class="hljs-number">80</span>;
+    charset     utf-<span class="hljs-number">8</span>;
+    server_name ipit.kpn.com;
+
+    root       /usr/bin/ipit/www;
+    access_log /usr/bin/ipit/log/access.log;
+    error_log  /usr/bin/ipit/log/error.log;
+
+    location / {
+        proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        <span class="hljs-keyword">if</span> (!-f $request_filename) {
+            proxy_pass http:<span class="hljs-comment">//127.0.0.1:8000;</span>
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+}</code></pre>
+
+<p><strong>3 Upload file </strong> <br>
+SFTP file to  <br>
+<code>/etc/nginx/sites-available/</code> <br>
+Then link it to <br>
+<code>sudo ln -s /etc/nginx/sites-available/ipit.conf  /etc/nginx/sites-enabled/</code></p>
+
+<p><strong>4 Restart Nginx</strong></p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs "><span class="hljs-built_in">sudo</span> service nginx reload
+<span class="hljs-built_in">sudo</span> service nginx restart</code></pre>
+
+<p><strong>5:PS there is another configuration file for nginx, I didn’t modify</strong> <br>
+<code>/etc/nginx/nginx.conf</code></p>
+
+
+
+<pre class="prettyprint"><code class=" hljs applescript">user www-data;
+worker_processes auto;
+pid /<span class="hljs-command">run</span>/nginx.pid;
+
+events {
+        worker_connections <span class="hljs-number">768</span>;
+        <span class="hljs-comment"># multi_accept on;</span>
+}
+
+http {
+
+        <span class="hljs-comment">##</span>
+        <span class="hljs-comment"># Basic Settings</span>
+        <span class="hljs-comment">##</span>
+
+        sendfile <span class="hljs-function_start"><span class="hljs-keyword">on</span></span>;
+        tcp_nopush <span class="hljs-function_start"><span class="hljs-keyword">on</span></span>;
+        tcp_nodelay <span class="hljs-function_start"><span class="hljs-keyword">on</span></span>;
+        keepalive_timeout <span class="hljs-number">65</span>;
+        types_hash_max_size <span class="hljs-number">2048</span>;
+        <span class="hljs-comment"># server_tokens off;</span>
+
+        <span class="hljs-comment"># server_names_hash_bucket_size 64;</span>
+        <span class="hljs-comment"># server_name_in_redirect off;</span>
+
+        include /etc/nginx/mime.types;
+        default_type <span class="hljs-type">application</span>/octet-stream;
+
+        <span class="hljs-comment">##</span>
+        <span class="hljs-comment"># SSL Settings</span>
+        <span class="hljs-comment">##</span>
+
+        ssl_protocols TLSv1 TLSv1<span class="hljs-number">.1</span> TLSv1<span class="hljs-number">.2</span>; <span class="hljs-comment"># Dropping SSLv3, ref: POODLE</span>
+        ssl_prefer_server_ciphers <span class="hljs-function_start"><span class="hljs-keyword">on</span></span>;
+
+        <span class="hljs-comment">##</span>
+        <span class="hljs-comment"># Logging Settings</span>
+        <span class="hljs-comment">##</span>
+
+        access_log /var/<span class="hljs-command">log</span>/nginx/access.<span class="hljs-command">log</span>;
+        error_log /var/<span class="hljs-command">log</span>/nginx/<span class="hljs-keyword">error</span>.<span class="hljs-command">log</span>;
+
+        <span class="hljs-comment">##</span>
+        <span class="hljs-comment"># Gzip Settings</span>
+        <span class="hljs-comment">##</span>
+
+        gzip <span class="hljs-function_start"><span class="hljs-keyword">on</span></span>;
+        gzip_disable <span class="hljs-string">"msie6"</span>;
+
+        <span class="hljs-comment"># gzip_vary on;</span>
+        <span class="hljs-comment"># gzip_proxied any;</span>
+        <span class="hljs-comment"># gzip_comp_level 6;</span>
+        <span class="hljs-comment"># gzip_buffers 16 8k;</span>
+        <span class="hljs-comment"># gzip_http_version 1.1;</span>
+        <span class="hljs-comment"># gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;</span>
+
+        <span class="hljs-comment">##</span>
+        <span class="hljs-comment"># Virtual Host Configs</span>
+        <span class="hljs-comment">##</span>
+
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+}
+
+
+<span class="hljs-comment">#mail {</span>
+<span class="hljs-comment">#       # See sample authentication script at:</span>
+<span class="hljs-comment">#       # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#       # auth_http localhost/auth.php;</span>
+<span class="hljs-comment">#       # pop3_capabilities "TOP" "USER";</span>
+<span class="hljs-comment">#       # imap_capabilities "IMAP4rev1" "UIDPLUS";</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#       server {</span>
+<span class="hljs-comment">#               listen     localhost:110;</span>
+<span class="hljs-comment">#               protocol   pop3;</span>
+<span class="hljs-comment">#               proxy      on;</span>
+<span class="hljs-comment">#       }</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#       server {</span>
+<span class="hljs-comment">#               listen     localhost:143;</span>
+<span class="hljs-comment">#               protocol   imap;</span>
+<span class="hljs-comment">#               proxy      on;</span>
+<span class="hljs-comment">#       }</span>
+<span class="hljs-comment">#}</span></code></pre>
+
+<hr>
+
+
+
+<h2 id="44-wsgi">4.4 WSGI</h2>
+
+
+
+<h3 id="441-gunicorn-configuration">4.4.1 Gunicorn configuration</h3>
+
+<p><strong>1 Installation</strong></p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs "><span class="hljs-built_in">sudo</span> dpkg -i python-gunicorn_19.<span class="hljs-number">4.5</span>-<span class="hljs-number">1</span>ubuntu1_all.deb
+<span class="hljs-built_in">sudo</span> dpkg -i gunicorn_19.<span class="hljs-number">4.5</span>-<span class="hljs-number">1</span>ubuntu1_all.deb</code></pre>
+
+<p>gunicorn it doesn’t use configuration, when it is called, parameters are passed to it so that it knows the configuration.</p>
+
+<p>version <code>19.4.5</code></p>
+
+
+
+<pre class="prettyprint"><code class="language-python hljs "><span class="hljs-prompt">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> gunicorn
+<span class="hljs-prompt">&gt;&gt;&gt; </span>gunicorn.__version__
+<span class="hljs-string">'19.4.5'</span></code></pre>
+
+<p><strong>2 Run</strong> <br>
+Under the ipitserver.py folder, run the following command will bring up gunicorn</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">/usr/bin/gunicorn ipitserver:app --workers <span class="hljs-number">2</span></code></pre>
+
+<p><a id="supervisor"></a></p>
+
+
+
+<h3 id="442-supervisor-configuration">4.4.2 supervisor  configuration</h3>
+
+<p>supervisor is a process management program that helps me to call gunicorn in case of  reboot or other failure. It is written in python <br>
+<strong>1 Install supervisor</strong> <br>
+Use dpkg command to install below debian files.</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs "><span class="hljs-built_in">sudo</span> dpkg -i supervisor_3.<span class="hljs-number">2.0</span>-<span class="hljs-number">2</span>_all.deb</code></pre>
+
+<p>version 3.2.0</p>
+
+<p><strong>2 Config supervisor</strong></p>
+
+<p><code>/etc/supervisor/conf.d/ipit.conf</code></p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ini"><span class="hljs-title">[program:ipit]</span>
+
+<span class="hljs-setting">command     = <span class="hljs-value">/usr/bin/gunicorn ipitserver:app --workers <span class="hljs-number">2</span></span></span>
+<span class="hljs-setting">directory   = <span class="hljs-value">/usr/bin/ipit/www</span></span>
+<span class="hljs-setting">autostart   = <span class="hljs-value"><span class="hljs-keyword">true</span></span></span>
+<span class="hljs-setting">autorestart = <span class="hljs-value"><span class="hljs-keyword">true</span></span></span>
+<span class="hljs-setting">startsecs   = <span class="hljs-value"><span class="hljs-number">3</span></span></span>
+<span class="hljs-setting">startretries = <span class="hljs-value"><span class="hljs-number">36</span></span></span>
+
+<span class="hljs-setting">redirect_stderr         = <span class="hljs-value"><span class="hljs-keyword">true</span></span></span>
+<span class="hljs-setting">stdout_logfile_maxbytes = <span class="hljs-value"><span class="hljs-number">50</span>MB</span></span>
+<span class="hljs-setting">stdout_logfile_backups  = <span class="hljs-value"><span class="hljs-number">10</span></span></span>
+<span class="hljs-setting">stdout_logfile          = <span class="hljs-value">/usr/bin/ipit/log/supervisor.log</span></span>
+</code></pre>
+
+<p>Below config file is of factory default:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs mel">; supervisor config <span class="hljs-keyword">file</span>
+
+[unix_http_server]
+<span class="hljs-keyword">file</span>=/var/run/supervisor.sock   ; (the path to the socket <span class="hljs-keyword">file</span>)
+chmod=<span class="hljs-number">0700</span>                       ; sockef <span class="hljs-keyword">file</span> mode (<span class="hljs-keyword">default</span> <span class="hljs-number">0700</span>)
+
+[supervisord]
+logfile=/var/<span class="hljs-keyword">log</span>/supervisor/supervisord.<span class="hljs-keyword">log</span> ; (main <span class="hljs-keyword">log</span> <span class="hljs-keyword">file</span>;<span class="hljs-keyword">default</span> <span class="hljs-variable">$CWD</span>/supervisord.<span class="hljs-keyword">log</span>)
+pidfile=/var/run/supervisord.pid ; (supervisord pidfile;<span class="hljs-keyword">default</span> supervisord.pid)
+childlogdir=/var/<span class="hljs-keyword">log</span>/supervisor            ; (<span class="hljs-string">'AUTO'</span> child <span class="hljs-keyword">log</span> dir, <span class="hljs-keyword">default</span> <span class="hljs-variable">$TEMP</span>)
+
+; the below section must remain <span class="hljs-keyword">in</span> the config <span class="hljs-keyword">file</span> <span class="hljs-keyword">for</span> RPC
+; (supervisorctl/web interface) to work, additional interfaces may be
+; added by defining them <span class="hljs-keyword">in</span> separate rpcinterface: sections
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:<span class="hljs-comment">///var/run/supervisor.sock ; use a unix:// URL  for a unix socket</span>
+
+; The [include] section can just contain the <span class="hljs-string">"files"</span> setting.  This
+; setting can list multiple files (separated by whitespace or
+; newlines).  It can also contain wildcards.  The filenames are
+; interpreted as relative to this <span class="hljs-keyword">file</span>.  Included files <span class="hljs-variable">*cannot</span>*
+; include files themselves.
+
+[include]
+files = /etc/supervisor/conf.d<span class="hljs-comment">/*.conf
+</span></code></pre>
+
+<p><strong>3 Follow this <a href="http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu">link</a>, I configured to have supervisor to automatically start.</strong></p>
+
+<p>Don’t remember what I really did, probably <br>
+<code>sudo chmod +x /etc/init.d/supervisord</code> <br>
+So <code>supervisord</code> and <code>supervisor</code> is added to the folder <code>/etc/init.d/</code> folder.</p>
+
+
+
+<h2 id="45-python-framwork">4.5 Python Framwork</h2>
+
+
+
+<h3 id="451-flask-configuration">4.5.1 Flask configuration</h3>
+
+<p>Flask is a python based Web framework.</p>
+
+<p>Use <code>sudo dpkg -i</code> command to install these packages</p>
+
+<blockquote>
+  <p>python-flask-sqlalchemy_1.0-3_all.deb <br>
+  python-flask-login_0.2.6-1_all.deb <br>
+  python-flask_0.10.1-2_all.deb</p>
+</blockquote>
+
+<p>All the configurations are inside ipit codes. Let’s discuss that later.</p>
+
+
+
+<h2 id="46-environment">4.6 Environment</h2>
+
+<p>Installed at /usr/bin/python <br>
+Python 2.7.9</p>
+
+<p>Note that if you want to use python 3, you can call python3</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">root@ipitserver:/usr/bin<span class="hljs-comment"># ll python*</span>
+lrwxrwxrwx <span class="hljs-number">1</span> root root       <span class="hljs-number">9</span> Mar <span class="hljs-number">16</span>  <span class="hljs-number">2015</span> python -&gt; python2.<span class="hljs-number">7</span>*
+-rwxr-xr-x <span class="hljs-number">1</span> root root <span class="hljs-number">3785928</span> Mar  <span class="hljs-number">1</span>  <span class="hljs-number">2015</span> python2.<span class="hljs-number">7</span>*
+lrwxrwxrwx <span class="hljs-number">1</span> root root       <span class="hljs-number">9</span> Jul <span class="hljs-number">12</span> <span class="hljs-number">15</span>:<span class="hljs-number">46</span> python3 -&gt; python3.<span class="hljs-number">5</span>*
+-rwxr-xr-x <span class="hljs-number">2</span> root root <span class="hljs-number">4439120</span> Mar <span class="hljs-number">31</span>  <span class="hljs-number">2016</span> python3.<span class="hljs-number">5</span>*
+-rwxr-xr-x <span class="hljs-number">2</span> root root <span class="hljs-number">4439120</span> Mar <span class="hljs-number">31</span>  <span class="hljs-number">2016</span> python3.<span class="hljs-number">5</span>m*
+lrwxrwxrwx <span class="hljs-number">1</span> root root      <span class="hljs-number">10</span> Jul <span class="hljs-number">12</span> <span class="hljs-number">15</span>:<span class="hljs-number">46</span> python3m -&gt; python3.<span class="hljs-number">5</span>m*</code></pre>
+
+
+
+<h2 id="47-data-base">4.7 Data Base</h2>
+
+
+
+<h3 id="471-postgresql-sql-database">4.7.1 Postgresql SQL database</h3>
+
+<p><strong>1 Installation</strong> <br>
+Install from Ubuntu packages</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs "><span class="hljs-built_in">sudo</span> dpkg -i postgresql-contrib-<span class="hljs-number">9.4</span>_9.<span class="hljs-number">4.9</span>-<span class="hljs-number">0</span>+deb8u1_amd64.deb
+<span class="hljs-built_in">sudo</span> dpkg -i postgresql-contrib_9.<span class="hljs-number">4</span>+<span class="hljs-number">165</span>+deb8u1_all.deb
+<span class="hljs-built_in">sudo</span> dpkg -i postgresql-common_165+deb8u1_all.deb
+<span class="hljs-built_in">sudo</span> dpkg -i postgresql-client-common_165+deb8u1_all.deb
+<span class="hljs-built_in">sudo</span> dpkg -i postgresql-client-<span class="hljs-number">9.4</span>_9.<span class="hljs-number">4.9</span>-<span class="hljs-number">0</span>+deb8u1_amd64.deb
+<span class="hljs-built_in">sudo</span> dpkg -i postgresql-<span class="hljs-number">9.4</span>_9.<span class="hljs-number">4.9</span>-<span class="hljs-number">0</span>+deb8u1_amd64.deb</code></pre>
+
+<p><strong>2 Version</strong> <br>
+9.4.9</p>
+
+<p><strong>3 Users and credential</strong> <br>
+see <a href="#credentials">this</a></p>
+
+<p><strong>3 IPIT DB creation</strong> <br>
+1 login VM <br>
+2 Open Postgresql command line client</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">su postgres
+psql</code></pre>
+
+<p>4 run sql</p>
+
+
+
+<pre class="prettyprint"><code class="language-sql hljs "><span class="hljs-operator"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">DATABASE</span> ipit_db
+  <span class="hljs-keyword">WITH</span> ENCODING=<span class="hljs-string">'UTF8'</span>
+       OWNER=dewei
+       <span class="hljs-keyword">CONNECTION</span> LIMIT=-<span class="hljs-number">1</span>;</span></code></pre>
+
+<p><strong>5 Create Table</strong> <br>
+This step is done by python code</p>
+
+<blockquote>
+  <p>database_setup.py</p>
+</blockquote>
+
+<p><strong>6 Initial Data injection</strong> <br>
+It is done by python code</p>
+
+<blockquote>
+  <p>popdata.py <br>
+  with old IPIT data retrieved and saved as csv files in folder <code>source_data</code></p>
+</blockquote>
+
+<p><strong>4 Table design</strong> <br>
+See <a href="http://10.151.240.137/sql_design">this page</a></p>
+
+<h1 id="5-how-tos">5 How-tos</h1>
+
+
+
+<h2 id="51-for-end-users">5.1 For end users</h2>
+
+<p>This chapter is written according to the <a href="#workflow">work flow</a>.</p>
+
+
+
+<h3 id="how-to-get-an-ipit-account">How to get an IPIT account?</h3>
+
+<p>1.If you are a test manager/ tester, you can register yourself at the <a href="http://10.151.240.137/signup">sign up page</a> <br>
+Note: please use your ‘ruisnaam’ and correct kpn email. <br>
+The system automatically grant you the <code>test_manager</code>’s  authority. So that you can edit your own project’s plan. <br>
+2. If you are a PM, you don’t need to register and you can browse all open information. <br>
+3. If you wants to become admin, element admin or human admin. Please contact the <a href="martin.swaen@kpn.com">IPIT maintenance team</a>.</p>
+
+
+
+<h3 id="how-to-create-a-new-project">How to create a new project?</h3>
+
+<p>1 You must log in as admin, human_admin or element_admin. <br>
+2 Go <a href="http://10.151.240.137/new_project">here</a></p>
+
+
+
+<h3 id="how-to-modify-a-project">How to modify a project?</h3>
+
+<p>1 Only admin, human_admin and element_admin could modify <br>
+2 Test Manager can modify their own project. <br>
+3 Go to <a href="http://10.151.240.137/projects">project list</a>, click a project name.</p>
+
+
+
+<h3 id="how-to-delete-a-project">How to delete a project?</h3>
+
+<p>1 Only admin could delete a project. <br>
+2 Go to <a href="http://10.151.240.137/projects">project list</a>, click a project name. <br>
+3 At the bottom, find <code>Delete</code> Button. Note that once deleted, all project plans and allocations data will be also deleted.</p>
+
+<p><a id="humanplan"></a></p>
+
+
+
+<h3 id="how-to-set-project-request-human-plan">How to set project request Human plan?</h3>
+
+<p>1 admin, test_manager (only to his own project), human_admin, element_admin <br>
+2 Go to <a href="http://10.151.240.137/projects">project list</a>, click the project name. <br>
+3 At right part ‘Project Plan’, choose type as ‘Human’ and set the start and end year week of the plan you want to edit. <br>
+4 Click “Edit”</p>
+
+
+
+<h3 id="how-to-set-project-request-element-plan">How to set project request Element plan?</h3>
+
+<p>Same as <a href="#humanplan">Human Plan</a>, but use type = Element</p>
+
+
+
+<h3 id="how-to-set-human-allocation-plan">How to set human allocation plan?</h3>
+
+<p>Same as <a href="#humanplan">Human Plan</a>, but use type = Human Allocation. <br>
+Only admin and human_admin can edit.</p>
+
+
+
+<h2 id="52-for-maintenance">5.2 For Maintenance</h2>
+
+
+
+<h3 id="how-to-get-an-viper-account">How to get an Viper account?</h3>
+
+<p>1 Go to <a href="http://viper.support.local/">Viper portal</a> <br>
+2 Click <code>Request a SUPPORT-account</code></p>
+
+<p><a id="sshlogin"></a></p>
+
+
+
+<h3 id="how-to-login-vm-via-ssh">How to login VM via SSH?</h3>
+
+<p>1 Install <a href="https://git-for-windows.github.io/">GIT Bash</a> on Windows PC <br>
+2 Open Git Bash and run <br>
+ <code>ssh root@10.151.240.137</code> <br>
+3 The password can be found <a href="#vmcred">here</a> <br>
+4 Example:</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">zhai499@WLD4BED9205168 MINGW32 /
+$ ssh root@<span class="hljs-number">10.151</span>.<span class="hljs-number">240.137</span>
+root@<span class="hljs-number">10.151</span>.<span class="hljs-number">240.137</span><span class="hljs-string">'s password:
+Welcome to Ubuntu 16.04 LTS (GNU/Linux 4.4.0-21-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+0 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Fri Oct 14 16:20:07 2016 from 172.25.77.191
+root@ipitserver:~#</span></code></pre>
+
+
+
+<h3 id="how-to-login-vm-via-console">How to login VM via Console?</h3>
+
+<p>Install Console <br>
+1. Open windows start menu <br>
+2. Go to “Remote App and Desktop Connections” –&gt; “Cloud Services” –&gt; “VIPER vSphere client (Cloud Services)” <br>
+3. User name <code>support\d.zhai</code> password  <a href="#credentials">here</a> <br>
+4. In the client page: <br>
+-IP Address/Name: cpvc-sup02.support.local <br>
+-UserName: [same as you typed in before] <br>
+-toggle “Use Windows session credentials” <br>
+5. click <code>Virtual Machines</code> tag, click ‘IPIT_HOST’ right click, then “Open Console” <br>
+Then you are logged in as root.</p>
+
+
+
+<h3 id="how-to-start-and-stop-ipit-service">How to start and stop iPIT service?</h3>
+
+<p>iPIT is configured to be automatically started by <a href="#supervisor">supervisor</a> <br>
+But you can still manually stop and start it <br>
+1 <a href="#sshlogin">Login VM via SSH</a> <br>
+2 Stop IPIT <br>
+<code>sudo supervisorctl stop ipit</code> <br>
+3 Start IPIT <br>
+<code>sudo supervisorctl start ipit</code> <br>
+4 Check IPIT status  <br>
+<code>supervisorctl status</code></p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">root@ipitserver:~<span class="hljs-comment"># supervisorctl status</span>
+ipit                             RUNNING   pid <span class="hljs-number">45267</span>, uptime <span class="hljs-number">2</span> days, <span class="hljs-number">18</span>:<span class="hljs-number">52</span>:<span class="hljs-number">51</span></code></pre>
+
+<p><a id="howtorollback"></a></p>
+
+
+
+<h3 id="how-to-rollback-ipit-version">How to rollback iPIT version</h3>
+
+<p><a href="#sshlogin">Login VM via SSH</a> <br>
+Go to the IPIT folder <br>
+<code>cd /usr/bin/ipit</code> <br>
+Suppose we have two versions in below two folders:</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">www-<span class="hljs-number">16</span>-<span class="hljs-number">10</span>-<span class="hljs-number">05</span>_17.<span class="hljs-number">09.36</span>
+www-<span class="hljs-number">16</span>-<span class="hljs-number">10</span>-<span class="hljs-number">06</span>_15.<span class="hljs-number">27.22</span></code></pre>
+
+<p>The folder <code>www</code> is linked to <code>www-16-10-06_15.27.22</code> <br>
+This means that it is being used as the current IPIT version. <br>
+Use Below commands to rollback the IPIT version and restart service:</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">rm -rf www
+ln <span class="hljs-operator">-s</span> www-<span class="hljs-number">16</span>-<span class="hljs-number">10</span>-<span class="hljs-number">05</span>_17.<span class="hljs-number">09.36</span> www
+chown dewei:dewei www
+chown -R dewei:dewei www-<span class="hljs-number">16</span>-<span class="hljs-number">10</span>-<span class="hljs-number">05</span>_17.<span class="hljs-number">09.36</span>
+<span class="hljs-built_in">sudo</span> supervisorctl stop ipit
+<span class="hljs-built_in">sudo</span> supervisorctl start ipit
+<span class="hljs-built_in">sudo</span> /etc/init.d/nginx reload</code></pre>
+
+
+
+<h3 id="how-to-deploy-a-new-ipit-version">How to deploy a new iPIT version.</h3>
+
+<p>It is basically same as <a href="#howtorollback">how-to-roll-back</a> <br>
+Except that you change the folder position. <br>
+Note that these folders were created when I use <code>fabfile.py</code> to automatically deploy a newer version of IPIT to VM.</p>
+
+
+
+<h3 id="how-to-backup-and-restore-postgresql-db">How to backup and restore Postgresql DB?</h3>
+
+<p>1 Run <code>GIT Bash</code> <br>
+2 Go to local PC’s IPIT folder where <code>fabfile.py</code> is saved. <br>
+<strong>How to Backup</strong> <br>
+Run <code>fab backup</code></p>
+
+<p><strong>How to Restore (to the last backup file.)</strong> <br>
+Run <code>fab restore</code></p>
+
+<p>Below is an example:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs r">zhai499@WLD4BED9205168 MINGW32 ~/version-control/IPIT2 (master)
+$ fab backup
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] Executing task <span class="hljs-string">'backup'</span>
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] sudo: pg_dump --host localhost --port <span class="hljs-number">5432</span> --username postgres --role dewei --no-password  --format custom --blobs --encoding UTF8 --file backup_16-<span class="hljs-number">10</span>-19_<span class="hljs-number">16.00</span><span class="hljs-number">.39</span> ipit_db
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] sudo: gzip backup_16-<span class="hljs-number">10</span>-19_<span class="hljs-number">16.00</span><span class="hljs-number">.39</span>
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] sudo: rm last_bkp.gz
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] sudo: cp backup_16-<span class="hljs-number">10</span>-19_<span class="hljs-number">16.00</span><span class="hljs-number">.39</span>.gz last_bkp.gz
+
+Done.
+Disconnecting from <span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span><span class="hljs-keyword">...</span> done.
+
+zhai499@WLD4BED9205168 MINGW32 ~/version-control/IPIT2 (master)
+$ fab restore
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] Executing task <span class="hljs-string">'restore'</span>
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] sudo: cp last_bkp.gz to_restore.gz
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] sudo: gunzip to_restore.gz
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] sudo: pg_restore -h localhost -p <span class="hljs-number">5432</span> -U postgres -d <span class="hljs-string">"ipit_db"</span> --role <span class="hljs-string">"dewei"</span> -w  -c to_restore
+[<span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span>] sudo: rm to_restore
+
+Done.
+Disconnecting from <span class="hljs-number">10.151</span><span class="hljs-number">.240</span><span class="hljs-number">.137</span><span class="hljs-keyword">...</span> done.
+</code></pre>
+
+<p><strong>How to Restore (to an earlier backup)</strong> <br>
+This have to be done manually: <br>
+1 <a href="#sshlogin">Login VM via SSH</a> <br>
+2 Go to <code>/var/lib/postgresql</code> <br>
+3 Browse the folder and look for a backup file interested <br>
+for example, below we got 2 valid backup and we pick <code>backup_16-10-19_15.51.48.gz</code></p>
+
+
+
+<pre class="prettyprint"><code class="language-shell hljs haml">root@ipitserver:/var/lib/postgresql# ll
+total 452
+drwxr-xr-x  5 postgres postgres   4096 Oct 19 16:00 ./
+drwxr-xr-x 41 root     root       4096 Aug 23 14:39 ../
+drwxr-xr-x  3 postgres postgres   4096 Aug 17 16:22 9.4/
+-<span class="ruby">rw-r--r--  <span class="hljs-number">1</span> root     root     <span class="hljs-number">103088</span> <span class="hljs-constant">Sep</span> <span class="hljs-number">16</span> <span class="hljs-number">14</span><span class="hljs-symbol">:</span><span class="hljs-number">36</span> backup_16-09-<span class="hljs-number">16_14.36</span>.<span class="hljs-number">33</span>.sql.gz
+</span>-<span class="ruby">rw-r--r--  <span class="hljs-number">1</span> root     root     <span class="hljs-number">106400</span> <span class="hljs-constant">Oct</span> <span class="hljs-number">19</span> <span class="hljs-number">15</span><span class="hljs-symbol">:</span><span class="hljs-number">51</span> backup_16-<span class="hljs-number">10</span>-<span class="hljs-number">19_15.51</span>.<span class="hljs-number">48</span>.gz
+</span>-<span class="ruby">rw-r--r--  <span class="hljs-number">1</span> root     root     <span class="hljs-number">106456</span> <span class="hljs-constant">Oct</span> <span class="hljs-number">19</span> <span class="hljs-number">16</span><span class="hljs-symbol">:</span><span class="hljs-number">00</span> backup_16-<span class="hljs-number">10</span>-<span class="hljs-number">19_16.00</span>.<span class="hljs-number">39</span>.gz
+</span>-<span class="ruby">rw-------  <span class="hljs-number">1</span> postgres postgres   <span class="hljs-number">1905</span> <span class="hljs-constant">Oct</span> <span class="hljs-number">18</span> <span class="hljs-number">15</span><span class="hljs-symbol">:</span><span class="hljs-number">19</span> .bash_history
+</span>-<span class="ruby">rw-r--r--  <span class="hljs-number">1</span> root     root     <span class="hljs-number">106456</span> <span class="hljs-constant">Oct</span> <span class="hljs-number">19</span> <span class="hljs-number">16</span><span class="hljs-symbol">:</span><span class="hljs-number">00</span> last_bkp.gz
+</span></code></pre>
+
+<p>4 Run the following commands</p>
+
+
+
+<pre class="prettyprint"><code class="language-shell hljs bash"><span class="hljs-built_in">sudo</span> cp [The chosen file name] to_restore.gz`
+<span class="hljs-built_in">sudo</span> gunzip to_restore.gz
+<span class="hljs-built_in">sudo</span> pg_restore -h localhost -p <span class="hljs-number">5432</span> -U postgres <span class="hljs-operator">-d</span> <span class="hljs-string">"ipit_db"</span> --role <span class="hljs-string">"dewei"</span> -w  -c to_restore
+<span class="hljs-built_in">sudo</span> rm to_restore</code></pre>
+
+<p><a id="addnewadmin"></a></p>
+
+
+
+<h3 id="how-to-add-a-new-admin-account">How to add a new admin account?</h3>
+
+<p><a id="usermanagementtool"></a></p>
+
+
+
+<h4 id="1-use-a-script-tool">1 Use a script tool</h4>
+
+<p>1 <a href="#sshlogin">Login VM via SSH</a> <br>
+2 Go the working directory <code>/usr/bin/ipit/www</code> <br>
+3 Run the tool by this command <code>python ipit_user_manager.py</code> <br>
+4 Follow the instruction.</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs ">root@ipitserver:/usr/bin/ipit/www<span class="hljs-comment"># python ipit_user_manager.py</span>
+Welcome to IPIT User manager. Here you can manage all account <span class="hljs-keyword">for</span> IPIT <span class="hljs-number">2.0</span>
+
+============================
+Please choose your action:
+<span class="hljs-number">1</span>: Show all users
+<span class="hljs-number">2</span>: Add a new user.
+<span class="hljs-number">3</span>: Delete a user.
+<span class="hljs-number">4</span>: Set a user<span class="hljs-string">'s password.
+5: exit.
+============================
+&gt; 1
+Name     | Email                     | Usergroup
+_________|___________________________|______________
+admin    | dewei.zhai@kpn.com        | admin
+Frankbol | frank.bol@kpn.com         | guest
+jbouzer  | jamal.bouzeryouh@kpn.com  | testmanager
+chowd495 | jabed.chowdhury@kpn.com   | testmanager
+alkem006 | willem.alkemade@kpn.com   | testmanager
+boon006  | fred.boon@kpn.com         | human_admin
+swaen001 | martin.swaen@kpn.com      | element_admin
+groen037 | martin.groeneveld@kpn.com | admin</span></code></pre>
+
+
+
+<h4 id="2-via-python-interpreter">2 Via Python interpreter</h4>
+
+<p>Login in board <br>
+go to <code>/usr/bin/ipit/www</code> <br>
+Run python CLI</p>
+
+
+
+<pre class="prettyprint"><code class="language-python hljs "><span class="hljs-prompt">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> sqlite3
+<span class="hljs-prompt">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> credential
+<span class="hljs-prompt">&gt;&gt;&gt; </span>conn = sqlite3.connect(<span class="hljs-string">'credential.db'</span>)
+<span class="hljs-prompt">&gt;&gt;&gt; </span>c = conn.cursor()
+<span class="hljs-prompt">&gt;&gt;&gt; </span>INSERT_SQL = <span class="hljs-string">"INSERT INTO USERS (name, pwd_hash, email, user_group) VALUES ('{0}', '{1}', '{2}', '{3}')"</span>
+<span class="hljs-prompt">&gt;&gt;&gt; </span>c.execute(INSERT_SQL.format(<span class="hljs-string">'boon006'</span>, credential.make_pw_hash(<span class="hljs-string">'boon006'</span>, <span class="hljs-string">'1234'</span>), <span class="hljs-string">'fred.boon@kpn.com'</span>, <span class="hljs-string">'human_admin'</span>))
+&lt;sqlite3.Cursor object at <span class="hljs-number">0x7ff5f33face0</span>&gt;
+<span class="hljs-prompt">&gt;&gt;&gt; </span>conn.commit()
+<span class="hljs-prompt">&gt;&gt;&gt; </span>conn.close()</code></pre>
+
+
+
+<h3 id="how-to-delete-an-subscriber">How to delete an subscriber?</h3>
+
+<p>Use Tool</p>
+
+
+
+<h2 id="53-for-developers">5.3 For Developers</h2>
+
+
+
+<h3 id="how-to-add-a-new-column">How to add a new column.</h3>
+
+<p>Example: I want to add a new column to table Employees called if_left. It is a boolean column that marks if an employee has left this department <br>
+Here is what I have done.</p>
+
+
+
+<h4 id="1-add-new-column-to-sql-db">1 Add new column to SQL DB</h4>
+
+<p>1.1 SSH to VM <br>
+1.2 <code>su postgres</code> <br>
+1.3 <code>psql ipit_db</code> <br>
+1.4 Change table and update one user:</p>
+
+
+
+<pre class="prettyprint"><code class="language-sql hljs "><span class="hljs-operator"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">"Employees"</span> <span class="hljs-keyword">ADD</span> <span class="hljs-keyword">COLUMN</span> if_left Boolean;</span>
+<span class="hljs-operator"><span class="hljs-keyword">UPDATE</span> <span class="hljs-string">"Employees"</span> <span class="hljs-keyword">SET</span> if_left = <span class="hljs-string">'TRUE'</span> <span class="hljs-keyword">where</span> employee_id = <span class="hljs-number">9</span>;</span></code></pre>
+
+
+
+<h4 id="2-add-input-field-to-employeesinglehtml-file">2 Add input field to <code>employee_single.html</code> file.</h4>
+
+
+
+<h4 id="3-change-support-function-getemployeebyid">3 Change support function <code>get_employee_byid()</code></h4>
+
+<p>Add the new column to query.</p>
+
+
+
+<h4 id="3-change-page-handler-employeesingle">3 Change page handler <code>employee_single</code></h4>
+
+<p>For a get, new column is read to handler by calling <code>get_employee_byid()</code>. <br>
+For a post, It reads html post parameters <code>if_left</code>, save it to <code>kwargs</code> and write the value to html pages.</p>
+
+
+
+<h4 id="4-change-support-function-updateemployee">4 Change support function <code>update_employee()</code></h4>
+
+<p>New function will write the value ‘if_left’ to DB</p>
+
+
+
+<h4 id="5-hide-left-users-from-showing-to-web">5 Hide left users from showing to web.</h4>
+
+<p>Update <code>gen_employee_list()</code> add a new filter</p>
+
+
+
+<pre class="prettyprint"><code class="language-python hljs ">q= q.filter(
+        (Employees.if_left == <span class="hljs-keyword">None</span>) | (Employees.if_left == <span class="hljs-keyword">False</span>)
+           )</code></pre>
+
+<p>Then all left employees won’t be showed up in the web page. <br>
+But if you know their employee_id, you can still open the page to view them: <br>
+For example, Guada’s employee_id is 9 <br>
+then you can open URL <br>
+<a href="http://10.151.240.137/employee_9">http://10.151.240.137/employee_9</a> <br>
+And view her page.</p>
+
+
+
+<h3 id="case-add-element-template-20-oct-2016">Case: Add element template 20-Oct-2016:</h3>
+
+<p>In IPIT database, there are currently 658 elements (machines) with very user-unfriendly names. <br>
+If a project is asked to fill in their project element plan, now it is expected that elements are added to plan one by one. It requires the user have a very good knowledge of elements and it is very time consuming and painfull process. <br>
+The concept of template come to our rescuer. <br>
+A template is a list of elements with their usage respectively in one week. <br>
+For example, you can define a template called “2 elements”, it contains</p>
+
+<table>
+<thead>
+<tr>
+  <th>element(node:hostname)</th>
+  <th>usage</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>HLR/HSS - Osta2.0:GVTEHSS2</td>
+  <td>Testuitvoering</td>
+</tr>
+<tr>
+  <td>4G OSS-RC:4G OSS-RC</td>
+  <td>Cfg aanp. + Test Uitv.</td>
+</tr>
+</tbody></table>
+
+
+<p>With this template, you can assign it to a project for certain weeks. <br>
+IPIT will copy this template to those weeks for this project. <br>
+<strong>Note: copying can overwrite previous plan</strong></p>
+
+
+
+<h4 id="1-update-sql-design">1 Update SQL design</h4>
+
+<p>Done See <code>SQL design 0.9.vsd</code></p>
+
+
+
+<h4 id="2-update-databasesetuppy">2 Update <code>database_setup.py</code></h4>
+
+<p>Add two <code>Base</code> class with same name of the new tables: <br>
+<code>class ElementTemplates(Base)</code> &amp; <code>class ElementTemplateContents(Base)</code> <br>
+Update class <code>Elements</code> and <code>ElementUsages</code> for the foreign key relationship</p>
+
+<p><code>ElementTemplateContents = relationship("ElementTemplateContents")</code></p>
+
+
+
+<h4 id="3-write-sql-statement-to-update-current-postgresql-sql">3 Write SQL statement to update current Postgresql sql.</h4>
+
+
+
+<pre class="prettyprint"><code class="language-sql hljs "><span class="hljs-operator"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">"ElementTemplates"</span> (
+    template_id SERIAL <span class="hljs-keyword">PRIMARY</span> <span class="hljs-keyword">KEY</span>,
+    name        text <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    note        text <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    <span class="hljs-keyword">UNIQUE</span> (name)
+);</span>
+
+<span class="hljs-operator"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">"ElementTemplateContents"</span> (
+    content_id SERIAL <span class="hljs-keyword">PRIMARY</span> <span class="hljs-keyword">KEY</span>,
+    template_id <span class="hljs-keyword">integer</span> <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"ElementTemplates"</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    element_id <span class="hljs-keyword">integer</span> <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"Elements"</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    element_usage_id <span class="hljs-keyword">integer</span> <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"ElementUsages"</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+
+    <span class="hljs-keyword">UNIQUE</span> (template_id, element_id)
+);</span></code></pre>
+
+
+
+<h4 id="4-add-a-new-tag-called-element-templates-to-navigation-bar-in-basehtml">4 Add a new tag called “Element Templates” to Navigation bar in <code>base.html</code></h4>
+
+<p>In all the html files add below line</p>
+
+
+
+<pre class="prettyprint"><code class="language-html hljs "><span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"/element_templates"</span>&gt;</span>Element Templates<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span></code></pre>
+
+
+
+<h4 id="5-add-new-html-templates-elementtemplateshtml">5 Add new html templates <code>element_templates.html</code></h4>
+
+<p>This is done based on <code>elements.html</code></p>
+
+
+
+<h4 id="6-add-page-handler-for-elementtemplates">6 Add page handler for <code>/element_templates</code></h4>
+
+<p>Copy handler for <code>/elements</code> and modify. <br>
+Add a new support function called <code>gen_template_list</code></p>
+
+
+
+<h4 id="7-add-new-html-templates-templatesinglehtml">7 Add new html templates <code>template_single.html</code></h4>
+
+<p>This is copied from <code>element_single.html</code> <br>
+The basic idea is to divide page into 3 parts:  <br>
+up left: for editing static info, template name, note. <br>
+up right: for dynamic info, contents in the template. <br>
+down: show the current template content.</p>
+
+
+
+<h4 id="8-add-page-handler-for-elementtemplatetplid">8 Add page handler for <code>/element_template_&lt;tpl_id&gt;</code></h4>
+
+<p>Basic Idea is that store all data  needed by html template in a variable <code>kwargs</code>. <br>
+First, fill in it with current elements-templates data. <br>
+Then if user HTTP request is POST, save user inputs also to <code>kwargs</code>. <br>
+Then validate user inputs. <br>
+If valid, call certain support function to update IPIT DB, then refresh <code>kwargs</code> <br>
+If not valid, save error message to <code>kwargs</code> <br>
+Eventually, render the html template. All information is passed to html via <code>kwargs</code></p>
+
+<p>Here, a user action can be one out of below 4 actions: <br>
+1 Update template static data (name or note) <br>
+2 Update template dynamic data — add an element or updating an element <br>
+3 Update template dynamic data — delete an element <br>
+4 Delete the template</p>
+
+
+
+<h4 id="9-add-new-html-templates-newelementtemplatehtml">9 Add new html templates <code>new_element_template.html</code></h4>
+
+<p>Done</p>
+
+
+
+<h4 id="10-add-page-handler-for-newelementtemplate">10 Add page handler for <code>/new_element_template</code></h4>
+
+<p>Done</p>
+
+
+
+<h4 id="11-update-page-handler-planedit-allowing-elementtemplate-in-element-plan-editing">11 Update page handler <code>plan_edit</code> allowing element_template in element plan editing</h4>
+
+
+
+<h4 id="12-update-html-elementplanedithtml">12 Update html <code>element_plan_edit.html</code></h4>
+
+<p>Note that For this kind of DB structure changes, fab deploy is not enough.</p>
+
+
+
+<h1 id="6-todos-for-developer">6 TODOs (For developer)</h1>
+
+<p>Here I list some good ideas on the future development. <br>
+1 Put a button on the webpage to backup and restore sql DB. <br>
+2 Element admin can make a group of element in one template, name it. And use the template to edit project-element plan. —- Done 26-Oct <br>
+3 Element admin can make a element template by copying from a project. Because fabric can’t change the SQL DB structure.—-Done 26-Oct <br>
+4 Restructure the source codes — separate different functions into different modules. <br>
+5 Add logging info. <br>
+6 Add better function help. <br>
+7 virtualenv?</p>
+
+
+
+<h1 id="7-document-list">7 Document list</h1>
+
+<table>
+<thead>
+<tr>
+  <th>File Name</th>
+  <th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>SQL design 0.8.vsd</td>
+  <td>SQL Table design</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h1 id="8-some-memo">8 Some memo</h1>
+
+
+
+<h4 id="naming-convention-differences-between-genxx-and-getxx">Naming convention: differences between <code>gen_xx</code> and <code>get_xx</code></h4>
+
+<p><code>gen</code> means generate. The difference is, if we query data from one table without manipulate, I call it <code>get</code>. And if we query from more than one table and/or we manipulate the output to user, I call it <code>generate</code></p>
+
+
+
+<h4 id="difference-between-genxxlist-and-genxx">Difference between <code>gen_xx_list</code> and  <code>gen_xx</code>:</h4>
+
+<p>no difference, I prefer to add suffix <code>list</code> to make it clear. </p>

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Departments{% endblock %}
+
+{% block navbar_departments %}
+  <li class="active"><a href="/departments">Departments</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+    <div class="col-md-4">
+      <h4>{{ len(department_list) }} Departments found</h4>
+    </div>
+      <div class="col-md-12 flash-msg">
+          {{ up_msg }}
+      </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+
+      <div class="col-md-14">
+    <form class="form-horizontal" role="form" method="post">
+  <div class="row">
+
+
+                <div class="form-group">
+            <label class="control-label col-sm-2" for="delete_department">Delete Department</label>
+                    <div class="col-sm-3">
+              <select class="form-control" id="delete_department" name="delete_department">
+                {% if selected_department %}
+                  <option selected>{{ selected_department }}</option>
+                {% endif %}
+                {% for d in department_list %}
+                <option >{{ d }}</option>
+                {% endfor %}
+              </select>
+                        </div>
+                        <div class="col-sm-2">
+          <input type="submit" class="btn btn-default" name="user_action" {% if block_del %} disabled="disabled" {% endif %} value="Delete">
+          </div>
+
+            </div>
+      </div>
+
+
+
+ <div class="row">
+      <div class="form-group">
+          <label class="control-label col-sm-2" for="new_department">New Department</label>
+      <div class="col-sm-3">
+          <input class="form-control" type="text" id="new_department" name="new_department">
+      </div>
+
+       <div class="col-sm-2">
+        <input type="submit" class="btn btn-default" name="user_action" {% if block_add %} disabled="disabled" {% endif %} value="Add">
+       </div>
+          <div class="col-sm-3 error_message">{{ new_department_error }}</div>
+          </div>
+
+     </div>
+
+         <div class="row">
+      <div class="form-group">
+          <label class="control-label col-sm-2" for="change_department_input">Change Department</label>
+          <div class="col-sm-3">
+              <select class="form-control" id="change_department_list" name="change_department_list">
+                {% if selected_department %}
+                  <option selected>{{ selected_department }}</option>
+                {% endif %}
+                {% for d in department_list %}
+                <option >{{ d }}</option>
+                {% endfor %}
+              </select>
+                        </div>
+                <div class="col-sm-3">
+          <input class="form-control" type="text" id="change_department_input" name="change_department_input">
+      </div>
+       <div class="col-sm-2">
+        <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Change">
+       </div>
+          <div class="col-sm-2 error_message">{{ change_department_error }}</div>
+          </div>
+
+     </div>
+
+        </form>
+
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+
+                <div class="col-md-4 table-responsive">
+      <table class="fixedtable fixedtable_columns_left-0 table table-striped table-hover sortable">
+        <thead>
+          <tr>
+            <th>Department(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for department in department_list %}
+          <tr>
+            <td>{{ showNone(department) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
+{% endblock %}

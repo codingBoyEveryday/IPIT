@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Change Requests{% endblock %}
+
+{% block navbar_requests %}
+  <li class="active"><a href="/change_requests">Change Requests</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+    <div class="col-md-4">
+      <h4>{{ len(unique_requests) }} Change Requests found with {{ len(data_list) }} Elements </h4>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12 table-responsive">
+      <table id="main_table" class="fixedtable fixedtable_columns_left-0 table table-striped table-hover sortable TF">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Applicant</th>
+            <th>Project</th>
+            <th>Impact</th>
+            <th>Element</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Note</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data_list %}
+          <tr>
+            <td><a href="change_request_{{ row[0] }}">{{ showNone(row[1]) }}</a></td>
+            <td>{{ showNone(row[2]) }}</td>
+            <td>{{ showNone(row[3]) }}</td>
+            <td>{{ showNone(row[4]) }}</td>
+            <td>{{ showNone(row[5])  }}:{{ showNone(row[6])   }}</td>
+            <td>{{ showNone(row[7]) }} {{ showNone(row[8]) }}</td>
+            <td>{{ showNone(row[9]) }} {{ showNone(row[10]) }}</td>
+            <td>{{ showNone(row[11]) }}</td>
+            <td>{{ showNone(row[12]) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+
+{% block result %}
+  <div class="row">
+    <div class="col-md-12">
+    <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <form class="navbar_form navbar_left" role="search" method="post">
+          <button type="submit" class="btn btn-default" name="user_action" {% if block_add %}disabled="disabled" {% endif %} value="new">New</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

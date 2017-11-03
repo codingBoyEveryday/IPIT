@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/my_style.css">
+  <link rel="icon" href="static/favicon.ico" type="image/vnd.microsoft.icon">
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Sofia" rel="stylesheet" type="text/css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/DataTables-1.10.13/css/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="static/FixedColumns-3.2.2/css/fixedColumns.dataTables.css">
+  <link rel="stylesheet" href="static/css/datatablesCustom.css">
+    <script type="text/javascript" charset="utf-8" src="static/jquery-2.1.4.js"></script>
+    <script type="text/javascript" charset="utf-8" src="static/jquery.browser.js"></script>
+    <script type="text/javascript" charset="utf-8" src="static/DataTables-1.10.13/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8" src="static/FixedColumns-3.2.2/js/dataTables.fixedColumns.js"></script>
+    <script type="text/javascript" charset="utf-8" src="static/datatablesCustom.js"></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>  
+   <script src="static/jquery-ui.min.js"></script>
+
+</head>
+<body>
+<div id="wrap">
+  <div class="container" id="main">
+    {% block bkg_img %} {% endblock %}
+
+    <!--Navibar-->
+    <nav class="navbar navbar-inverse navbar-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">iPIT 3.0</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            {% block navbar_projects %}<li><a href="/projects">Projects & maintenance</a></li>{% endblock %}
+            {% block navbar_employees %}<li><a href="/employees">Employees</a></li>{% endblock %}
+            {% block navbar_elements %}<li><a href="/elements">Elements</a></li>{% endblock %}
+            {% block navbar_templates %}<li><a href="/element_templates">Element Templates</a></li>{% endblock %}
+            {% block navbar_departments %}<li><a href="/departments">Departments</a></li>{% endblock %}
+            {% block navbar_requests %}<li><a href="/change_requests">Change Requests</a></li>{% endblock %}
+            {% block navbar_reports %}<li><a href="/reports">Reports</a></li>{% endblock %}
+            {% block navbar_extra %}{% endblock %}
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if loggedin %}
+              {% block navbar_set_pwd %}
+              <li><a href="/set_pwd"><span class="glyphicon glyphicon-pencil"></span> Set Password</a></li>
+              {% endblock %}
+              <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            {% else %}
+              {% block navbar_signup %}
+              <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+              {% endblock %}
+              {% block navbar_login %}
+              <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+              {% endblock %}
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--Message in upper page-->
+    {% block up_msg %}{% endblock %}
+
+    <div class="row">
+      <div class="col-md-12">
+        <hr>
+      </div>
+    </div>
+
+    <!--Main body-->
+    {% block content %}{% endblock %}
+
+    <!--Message at lower page-->
+    {% block down_msg %}
+    <div class="row">
+      <div class="col-md-12 flash-msg">
+        {{ update_msg }}
+      </div>
+    </div>
+    {% endblock %}
+
+    <!--Table to show the result-->
+    {% block result %}{% endblock %}
+  </div> <!--/.container-->
+</div>
+{% block footer %}
+<footer class="footer">
+  <div class="container">
+    <p class="foot-text">Designed and built with a great passion by <a href="https://nl.linkedin.com/in/dewei-zhai-6168b05a" target="_blank">Dewei Zhai</a>, expanded and supported by <a href = "https://www.sogeti.nl/" target= "_blank">Sogeti</a></p>
+    <p class="foot-text">Current Version: 3.0 released on 28-March-2017  Code licensed <a href="https://opensource.org/licenses/MIT" target="_blank" rel="license">MIT</a>, docs <a href="static/docs/IPIT_user_manual/index.html" target="_blank">iPIT Doc</a>.</p>
+  </div>
+</footer>
+{% endblock %}
+
+</body>
+</html>

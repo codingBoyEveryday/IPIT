@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}New Element{% endblock %}
+
+{% block navbar_elements %}
+  <li><a href="/elements">Elements</a></li>
+  <li class="active"><a href="/new_element">New Element</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+    <div class="col-md-4">
+      <h4>{{ up_msg }}</h4>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript">
+       $(function() {
+          $("#cur_date").datepicker({ dateFormat: "dd-mm-yy" })
+          $("#pre_date").datepicker({ dateFormat: "dd-mm-yy" })
+          $("#pre2_date").datepicker({ dateFormat: "dd-mm-yy" })
+       });
+
+</script>
+
+  <div class = "row">
+    <div class="col-md-6">
+      <h4>Element Info</h4>
+        <form class="form-horizontal" role="form" method="post">
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="node">Node*</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="node" name="node">
+                {% for n in node_list %}
+                <option> {{ showNone(n) }} </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="hostname">Host Name*</label>
+            <div class="col-sm-9">
+              <input class="form-control" type="text" id="hostname" name="hostname">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="note">Note</label>
+            <div class="col-sm-9">
+              <input class="form-control" type="text" id="note" name="note">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="cur_ver">Current Version</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="cur_ver" name="cur_ver">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="cur_date">Current Version Date</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="cur_date" name="cur_date">
+            </div><!--/.col-sm-9-->
+          </div><!--./form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="pre_ver">Last Version</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="pre_ver" name="pre_ver">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="pre_date">Last Version Date</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="pre_date" name="pre_date">
+            </div><!--/.col-sm-9-->
+          </div><!--./form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="pre2_ver">Last 2 Version</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="pre2_ver" name="pre2_ver">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="pre2_date">Last 2 Version Date</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="pre2_date" name="pre2_date">
+            </div><!--/.col-sm-9-->
+          </div><!--./form-group-->
+
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_add %} disabled="disabled" {% endif %} value="Add">
+            </div>
+          </div> <!--./form-group-->
+        </form>
+    </div> <!--col-md-6-->
+  </div> <!--/.row-->
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+{% endblock %}

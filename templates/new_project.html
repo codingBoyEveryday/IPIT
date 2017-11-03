@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}New Project{% endblock %}
+
+{% block navbar_projects %}
+  <li><a href="/projects">Projects & maintenance</a></li>
+  <li class="active"><a href="/new_project">New Project</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+      <div class="col-md-12 flash-msg">
+          {{ up_msg }}
+      </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript">
+       $(function() {
+               $("#date_el").datepicker({ dateFormat: "dd-mm-yy" })
+       });
+       
+</script> 
+  <!--Query Forms-->
+  <div class = "row">
+    <div class="col-md-9">
+      <h4>Project Info</h4>
+        <form class="form-horizontal" role="form" method="post">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Name*</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="name" name="name" value="{{ name }}">
+            </div>
+            <div class="col-sm-3 error_message">{{ result_msg }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="management">Management</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="management" name="management" value="{{ management }}">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="test_manager">Test Manager</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="test_manager" name="test_manager">
+                <option selected>{{ test_manager }}</option>
+                {% for e in employee_list %}
+                <option >{{ showNone(e) }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="code">Code</label>
+            <div class="col-sm-6">
+              <input class="form-control" id="code" name="code" value="{{ code }} ">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="priority">Priority*</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="priority" name="priority">
+                  <option selected>{{ priority }}</option>
+                  {% for p in priority_list %}
+                  <option >{{ showNone(p) }}</option>
+                  {% endfor %}
+              </select>
+            </div> <!--/.col-sm-6-->
+             <div class="col-sm-3 error_message">{{ no_input_error[0] }}</div>
+          </div>  <!--./form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="department">Department*</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="department" name="department">
+                  <option selected>{{ department }}</option>
+                  {% for d in department_list %}
+                  <option >{{ showNone(d) }}</option>
+                  {% endfor %}
+              </select>
+            </div> <!--/.col-sm-6-->
+            <div class="col-sm-3 error_message">{{ no_input_error[1] }}</div>
+          </div>  <!--./form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="domain">Domain*</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="domain" name="domain">
+                  <option selected>{{ domain }}</option>
+                  {% for d in domain_list %}
+                  <option >{{ showNone(d) }}</option>
+                  {% endfor %}
+              </select>
+            </div> <!--/.col-sm-6-->
+             <div class="col-sm-3 error_message">{{ no_input_error[2] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="date_el">Date EL</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="date_el" name="date_el" min="2014-01-01"
+              value={{ date_el }}>
+            </div><!--/.col-sm-6-->
+          </div><!--./form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="note">Note</label>
+            <div class="col-sm-6">
+              <input type="textarea" class="form-control" rows="3" id="note" name="note" value={{ note }}>
+            </div><!--/.col-sm-6-->
+          </div><!--./form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="active">Active</label>
+            <div class="col-sm-6">
+              <label class="radio-inline">
+                <input type="radio" name="active" id="active" value="active"
+                {% if active == 'active' %} checked {% endif %}/>Active
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="active" id="closed" value="closed"
+                {% if active == 'closed' %} checked {% endif %}/>Closed
+              </label>
+            </div><!--/.col-sm-6-->
+          </div><!--./form-group-->
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-6" action="/new_project">
+              <input type="submit" class="btn btn-default" name="user_action" value="Add">
+            </div>
+          </div> <!--./form-group-->
+        </form>
+    </div> <!--col-md-9-->
+
+  </div> <!--/.row-->
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+{% endblock %}

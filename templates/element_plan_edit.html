@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project_name }}{% endblock %}
+
+{% block navbar_extra %}
+  <li class="active"><a href="{{'/plan_edit_{0}_{1}_{2}_{3}_{4}_{5}_{6}'.format(prj_id, p_type, time_filter, time_line[0], time_line[1], time_line[2], time_line[3])}}">Edit Element Plan</a></li>
+  </ul>
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript">
+$( document ).ready(function() { 
+var sb = $('.dataTables_scrollBody')
+    , str_w = $('#str_w').val()
+    , str_y = $('#str_y').val()
+    , scrollTo = $('#' + str_y + "-"+ str_w )
+    , element_id = document.getElementById('{{ selected_element_id }}').id
+    , scrollToTop = $('#' + '_' +element_id);
+
+if (scrollTo.length > 0 && sb.length > 0) {
+sb.scrollLeft(
+    scrollTo.offset().left - sb.offset().left + sb.scrollLeft() - $('.DTFC_LeftBodyLiner').css('width').replace("px", "")
+);
+}
+
+if(element_id != 0 ){
+sb.scrollTop(
+    scrollToTop.offset().top - sb.offset().top + sb.scrollTop()
+);
+}
+
+});
+
+</script>
+
+  <div class = "row">
+    <div class="col-md-12">
+      <h4>Edit Element Plan: {{ project_name }}</h4>
+        <form class="form-horizontal" role="form" method="post" id="form_class">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="str_y">Start Year</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="str_y" name="str_y" value="{{ time_line[0] }}">
+            </div>
+            <div class="col-sm-4 error_message">{{ time_errors[0] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="str_w">Start Week</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="str_w" name="str_w" value="{{ time_line[1] }}">
+            </div>
+            <div class="col-sm-4 error_message">{{ time_errors[1] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="end_y">End Year</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="end_y" name="end_y" value="{{ time_line[2] }}">
+            </div>
+            <div class="col-sm-4 error_message">{{ time_errors[2] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="end_w">End Week</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="end_w" name="end_w" value="{{ time_line[3] }}">
+            </div>
+             <div class="col-sm-4 error_message">{{ time_errors[3] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <input type="submit" class="btn btn-default" name="user_action" value="Query">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="element">Node:Host Name</label>
+            <div class="col-sm-2">
+              <select class="form-control" id="{{ selected_element_id }}" name="element">
+                {% for e in element_list %}
+                  {% if e == selected_element %}
+                  <option selected>{{ selected_element }}</option>
+                  {% else %}
+                <option >{{ e }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-1">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Delete">
+            </div>
+            <label class="control-label col-sm-1" for="usage">Usage</label>
+            <div class="col-sm-2">
+              <select class="form-control" id="usage" name="usage">
+                {% if selected_usage %}
+                  <option selected>{{ selected_usage }}</option>
+                {% else %}
+                  <option selected>Test uitvoering</option>
+                {% endif %}
+                {% for u in usages_list %}
+                <option >{{ u }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-1">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Change">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="template">Element Templates</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="template" name="template">
+                {% if selected_template %}
+                  <option selected>{{ selected_template }}</option>
+                {% endif %}
+                {% for t in template_list %}
+                <option >{{ t }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-1">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Change all">
+            </div>
+              <div class="col-sm-1">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Delete all">
+              </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="copy_project">Copy Project</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="copy_project" name="copy_project">
+                {% if selected_project %}
+                  <option selected value="{{ selected_project[0] }}">{{ selected_project[1] }}</option>
+                {% endif %}
+                {% for p in project_list %}
+                  <option value="{{ p[0] }}">{{ p[1] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-2 error_message">{{ no_records_error }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="cp_year">Year</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="text" id="cp_year" name="cp_year" value="{{cp_time[0]}}">
+            </div>
+            <div class="col-sm-2 error_message">{{cp_errors[0]}}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="cp_week">Week</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="text" id="cp_week" name="cp_week" value="{{cp_time[1]}}">
+            </div>
+            <div class="col-sm-2 error_message">{{cp_errors[1]}}</div>
+            <div class="col-sm-1">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Copy">
+            </div>
+          </div> <!--/.form-group-->
+        </form>
+    </div> <!--col-md-6-->
+  </div> <!--/.row-->
+{% endblock %}
+
+{% block result %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+  <!--Table to show the result-->
+  <div class="row">
+    <div class="col-md-12 table-responsive">
+      <table class="fixedtable fixedtable_columns_left-3 table table-striped table-hover table-bordered sortable", id="table">
+        <thead>
+          <tr>
+            {% for h in column_names %}
+            <th id= "{{ h }}" >{{ showNone(h) }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for count, row in enumerate(data) %}
+          <tr id= "{{ '_'+element_ids[count] }}">
+            {% for i in row %}
+            <td>{{ showNone(i) }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+{% endblock %}

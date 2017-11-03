@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Project Person Matching</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static/css/my_style.css">
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<!--Navbar-->
+		<nav class="navbar navbar-inverse navbar-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">IPIT 2.0</a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+		  				<li><a href="/projects">Projects</a></li>
+		  				<li><a href="/employees">Employees</a></li>
+		  				<li><a href="/elements">Elements</a></li>
+		  				<li><a href="/element_templates">Element Templates</a></li>
+		  				<li><a href="/reports">Reports</a></li>
+		  				<li class="active"><a href="/ppm">PPM</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav> <!--/.navbar-->
+
+		<!--flash messages-->
+		{% with msg = get_flashed_messages() %}
+			{% if msg %}
+				<div class="row">
+					<div class="col-md-12 flashes">
+						{% for m in msg %}
+						<p>{{ m }}</p>
+						{% endfor %}
+					</div>
+				</div>
+			{% endif %}
+		{% endwith %}
+
+		<!--Horizontal Line-->
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+		<!--Query Forms-->
+		<div class = "row">
+			<div class="col-md-6">
+				<h4>Which weeks are you interested?</h4>
+				<form class="form-horizontal" role="form" method="post">
+					<div class="form-group"><!--Node-->
+						<label class="control-label col-sm-3" for="role">Role</label>
+						<div class="col-sm-9">
+							<select class="form-control" id="role" name="role">
+									<option  {% if role_id == "3" %} selected {% endif %} value="3">Tester</option>
+									<option {% if role_id == "4" %} selected {% endif %} value="4">Test Manager</option>
+							</select>
+						</div> <!--/.col-sm-9-->
+					</div><!--/.form-group-->
+
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="str_year">Start Year</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" id="str_year" name="str_year" value="{{ time_line[0] }}">
+						</div>
+					</div> <!--/.form-group-->
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="str_week">Start Week</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" id="str_week" name="str_week" value="{{ time_line[1] }}">
+						</div>
+					</div> <!--/.form-group-->
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="end_year">End Year</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" id="end_year" name="end_year" value="{{ time_line[2] }}">
+						</div>
+					</div> <!--/.form-group-->
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="end_week">End Week</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" id="end_week" name="end_week" value="{{ time_line[3] }}">
+						</div>
+					</div> <!--/.form-group-->
+
+
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-9">
+							<input type="submit" class="btn btn-default" name="query" value="Query">
+						</div>
+					</div> <!--./form-group-->
+				</form>
+			</div> <!--col-md-6-->
+
+		</div> <!--/.row-->
+		<!--Horizontal Line-->
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+		<!--Table to show the result-->
+		<div class="row">
+			<div class="col-md-12">
+				<h4>Projects' delta hours (supply - demand)</h4>
+			</div>
+			<div class="col-md-12 table-responsive">
+				<table class="table table-striped table-hover table-bordered">
+					<thead>
+						{% if len(column_names) %}
+							<tr>
+								<th>{{ showNone(column_names[0]) }}</th>
+								<th>Select</th>
+								{% for h in column_names[1:] %}
+								<th>{{ showNone(h) }}</th>
+								{% endfor %}
+							</tr>
+						{% endif %}
+					</thead>
+					<form>
+						<tbody>
+							{% for d in data %}
+							<tr>
+								<td><a href="/project_{{ d[1] }}">{{ d[0] }}</a></td>
+								<td><input type = "radio" name = "chosen_prj_id" value="{{ d[1] }}"></td>
+								{% for x in d[2:] %}
+								<td>{{ showNone(x) }}</td>
+								{% endfor %}
+							</tr>
+							{% endfor %}
+						</tbody>
+					</form>
+				</table>
+			</div><!--/.col-md-12-->
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<h4>All Employee that has available hours.</h4>
+			</div>
+		</div>
+
+	</div> <!--/.container-->
+</body>
+</html>

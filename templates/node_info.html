@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Node Info{% endblock %}
+
+{% block navbar_elements %}
+  <li><a href="/elements">Elements</a></li>
+  <li class="active"><a href="/node_info">Node Info</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+    <div class="col-md-4">
+      <h4>{{ up_msg }}</h4>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class = "row">
+    <div class="col-md-6">
+      <h4>Add Node</h4>
+        <form class="form-horizontal" role="form" method="post">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="domain">Domain</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="domain" name="domain">
+                {% if domain %}
+                <option selected> {{ domain }} </option>
+                {% endif %}
+                {% for d in domain_list %}
+                <option> {{ showNone(d) }} </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="node">Node</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="node" name="node" value = "{{ node }}">
+            </div>
+            <div class="col-sm-4 error_message">{{ node_error }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="note">Note</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="note" name="note" value = "{{ note }}">
+            </div>
+          </div> <!--/.form-group-->
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-6">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_add %} disabled="disabled" {% endif %} value="Add">
+            </div>
+          </div> <!--./form-group-->
+        </form>
+    </div> <!--col-md-6-->
+        <div class="col-md-6">
+      <h4>Delete Node</h4>
+        <form class="form-horizontal" role="form" method="post">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="delete_node">Node</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="delete_node" name="delete_node">
+                {% for n in node_list %}
+                <option> {{ showNone(n) }} </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div> <!--/.form-group-->
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-6">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_add %} disabled="disabled" {% endif %} value="Delete">
+            </div>
+          </div> <!--./form-group-->
+        </form>
+    </div> <!--col-md-6-->
+  </div> <!--/.row-->
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+{% endblock %}

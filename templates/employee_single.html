@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}{{ employee[0] }}{% endblock %}
+
+{% block navbar_employees %}
+  <li><a href="/employees">Employees</a></li>
+  <li class="active"><a href="{{'/employee_{0}'.format(emp_id)}}">{{ employee[0] }}</a></li>
+{% endblock %}
+
+{% block content %}
+  <div class = "row">
+    <div class="col-md-6">
+      <h4>Employee Info</h4>
+        <form class="form-horizontal" role="form" method="post">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Name</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="name" name="name" value="{{ employee[0] }}">
+            </div>
+            <div class="col-sm-4 error_message">{{ name_error }}</div>
+          </div> <!--/.form-group-->
+          {% if not block_mod %}
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="hours">Hours</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="hours" name="hours" value="{{ employee[1] }}">
+            </div>
+            <div class="col-sm-4 error_message">{{ hour_error }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="hours_available">Hours Available</label>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" id="hours_available" name="hours_available" value="{{ employee[2] }}">
+            </div>
+            <div class="col-sm-4 error_message">{{ hour_avl_error }}</div>
+          </div> <!--/.form-group-->
+          {% endif %}
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="department">Department</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="department" name="department">
+                  {% if not block_mod %}
+                    <option selected>{{ employee[3] }}</option>
+                  {% else %}
+                    <option selected>{{ employee[1] }}</option>
+                  {% endif %}
+                  {% for d in department_list %}
+                  <option >{{ d }}</option>
+                  {% endfor %}
+              </select>
+            </div> <!--/.col-sm-9-->
+          </div>  <!--./form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email</label>
+            <div class="col-sm-6">
+              {% if not block_mod %}
+                    <input class="form-control" type="email" id="email" name="email" value="{{ employee[4] }}">
+                  {% else %}
+                    <input class="form-control" type="email" id="email" name="email" value="{{ employee[2] }}">
+              {% endif %}
+            </div>
+            <div class="col-sm-4 error_message">{{ email_error }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="contract_type">Contract Type</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="contract_type" name="contract_type">
+                  {% if not block_mod %}
+                    <option selected>{{ employee[5] }}</option>
+                  {% else %}
+                    <option selected>{{ employee[3] }}</option>
+                  {% endif %}
+                  {% for c in contract_type_list %}
+                  <option >{{ c }}</option>
+                  {% endfor %}
+              </select>
+            </div> <!--/.col-sm-9-->
+          </div>  <!--./form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="registration_number">Registration Number</label>
+            <div class="col-sm-6">
+              {% if not block_mod %}
+                <input class="form-control" type="text" id="registration_number" name="registration_number" value="{{ employee[6] }}">
+              {% else %}
+                <input class="form-control" type="text" id="registration_number" name="registration_number" value="{{ employee[4] }}">
+              {% endif %}
+            </div>
+            <div class="col-sm-4 error_message">{{ reg_num_error }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="if_left">Left Department</label>
+            <div class="col-sm-6">
+              <label class="radio-inline">
+                {% if not block_mod %}
+                <input type="radio" name="if_left" id="if_left" value="True" {% if employee[7] in ['True', True] %} checked {% endif %}/>
+                {% else %}
+                <input type="radio" name="if_left" id="if_left" value="True" {% if employee[5] in ['True', True] %} checked {% endif %}/>
+                {% endif %}
+                Left
+              </label>
+              <label class="radio-inline">
+                {% if not block_mod %}
+                <input type="radio" name="if_left" id="if_left" value="False" {% if employee[7] in ['False', False] %} checked {% endif %}/>
+                {% else %}
+                <input type="radio" name="if_left" id="if_left" value="False" {% if employee[5] in ['False', False] %} checked {% endif %}/>
+                {% endif %}
+                Not left
+              </label>
+            </div><!--/.col-sm-6-->
+          </div><!--./form-group-->
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-6">
+              <input type="submit" class="btn btn-default" name="user_info" value="Refresh">
+              <input type="submit" class="btn btn-default" name="user_info"  {% if block_mod %} disabled="disabled" {% endif %} value="Change">
+            </div>
+          </div> <!--./form-group-->
+        </form>
+    </div> <!--col-md-6-->
+
+    <div class="col-md-6">
+      <h4>Employee Allocation Plan</h4>
+      <form class="form-horizontal" role="form" method="post">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="project_name">Project</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="project_name" name="project_name">
+                  <option selected>All Projects</option>
+                  {% for p in project_list %}
+                  <option >{{ p }}</option>
+                  {% endfor %}
+              </select>
+            </div> <!--/.col-sm-9-->
+          </div>  <!--./form-group-->
+          <div class="form-group">
+              <label class="control-label col-sm-2" for="str_y">From Year</label>
+              <div class="col-sm-6">
+                <input class="form-control" type="text" id="str_y" name="str_y" value="{{ time_line[0] }}">
+              </div>
+              <div class="col-sm-4 error_message">{{ time_errors[0] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+              <label class="control-label col-sm-2" for="str_w">From Week</label>
+              <div class="col-sm-6">
+                <input class="form-control" type="text" id="str_w" name="str_w" value="{{ time_line[1] }}">
+              </div>
+              <div class="col-sm-4 error_message">{{ time_errors[1] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+              <label class="control-label col-sm-2" for="end_y">To Year</label>
+              <div class="col-sm-6">
+                <input class="form-control" type="text" id="end_y" name="end_y" value="{{ time_line[2] }}">
+              </div>
+              <div class="col-sm-4 error_message">{{ time_errors[2] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+              <label class="control-label col-sm-2" for="end_w">To Week</label>
+              <div class="col-sm-6">
+                <input class="form-control" type="text" id="end_w" name="end_w" value="{{ time_line[3] }}">
+              </div>
+              <div class="col-sm-4 error_message">{{ time_errors[3] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-6">
+              <input type="submit" class="btn btn-default"  name="plan_info" value="Query">
+            </div>
+          </div> <!--./form-group-->
+      </form>
+    </div> <!--/.col-md-6-->
+  </div> <!--/.row-->
+{% endblock %}
+
+{% block down_msg %}
+  <div class="row">
+    <div class="col-md-12 flash-msg">
+      {{ update_msg }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+{% endblock %}
+
+{% block result %}
+  <div class="row">
+    <div class="col-md-12 table-responsive">
+      <table class="fixedtable fixedtable_columns_left-1 table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            {% for h in column_names %}
+            <th>{{ showNone(h) }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            {% for i in row %}
+            <td>{{ showNone(i) }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

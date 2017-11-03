@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Templates{% endblock %}
+
+{% block navbar_templates %}
+  <li class="active"><a href="/element_templates">Element Templates</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+    <div class="col-md-4">
+      <h4>{{ len(data) }} templates found</h4>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12 table-responsive">
+      <table class="fixedtable fixedtable_columns_left-0 table table-striped table-hover sortable">
+        <thead>
+          <tr>
+            <th>Template Name</th>
+            <th>Note</th>
+            <th>Element Qty</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            <td><a href="/element_template_{{ row[0] }}">{{ showNone(row[1]) }}</a></td>
+            <td>{{ showNone(row[2]) }}</td>
+            <td>{{ showNone(row[3]) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <form class="navbar_form navbar_left" role="search" method="post">
+        <button type="submit" class="btn btn-default" name="user_action"  {% if block_add %} disabled="disabled" {% endif %} value="new">New</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

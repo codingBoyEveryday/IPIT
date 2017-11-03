@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}New Employee{% endblock %}
+
+{% block navbar_employees %}
+  <li><a href="/employees">Employees</a></li>
+  <li class="active"><a href="/new_employee">New Employee</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+    <div class="col-md-4">
+      <h4>{{ up_msg }}</h4>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+ <div class = "row">
+   <div class="col-md-6">
+     <h4>Employee Info</h4>
+       <form class="form-horizontal" role="form" method="post">
+         <div class="form-group">
+           <label class="control-label col-sm-2" for="name" value="FirstName LastName">Name*</label>
+           <div class="col-sm-6">
+             <input class="form-control" type="text" id="name" name="name" value="{{ name }}">
+           </div>
+           <div class="col-sm-4 error_message">{{ name_error }}</div>
+         </div> <!--/.form-group-->
+         <div class="form-group">
+           <label class="control-label col-sm-2" for="hours">Hours*</label>
+           <div class="col-sm-6">
+             <input class="form-control" type="text" id="hours" name="hours" value="{{ hours }}">
+           </div>
+             <div class="col-sm-4 error_message">{{ hour_error }}</div>
+         </div> <!--/.form-group-->
+         <div class="form-group">
+           <label class="control-label col-sm-2" for="hours_available">Hours Available*</label>
+           <div class="col-sm-6">
+             <input class="form-control" type="text" id="hours_available" name="hours_available" value="{{ hours_available }}">
+           </div>
+           <div class="col-sm-4 error_message">{{ hour_avl_error }}</div>
+         </div> <!--/.form-group-->
+         <div class="form-group">
+           <label class="control-label col-sm-2" for="department">Department*</label>
+           <div class="col-sm-6">
+             <select class="form-control" id="department" name="department" value="{{ department }}">
+               {% for d in department_list %}
+               <option> {{ showNone(d) }} </option>
+               {% endfor %}
+             </select>
+           </div>
+         </div> <!--/.form-group-->
+         <div class="form-group">
+           <label class="control-label col-sm-2" for="email">Email*</label>
+           <div class="col-sm-6">
+             <input class="form-control" type="email" id="email" name="email" value="{{ email}}">
+           </div>
+             <div class="col-sm-4 error_message">{{ email_error }}</div>
+         </div> <!--/.form-group-->
+         <div class="form-group">
+           <label class="control-label col-sm-2" for="contract_type">Contract Type*</label>
+           <div class="col-sm-6">
+             <select class="form-control" id="contract_type" name="contract_type" value="{{ contract_type }}">
+               {% for c in contract_list %}
+               <option> {{ showNone(c) }} </option>
+               {% endfor %}
+             </select>
+           </div>
+         </div> <!--/.form-group-->
+         <div class="form-group">
+           <label class="control-label col-sm-2" for="reg_num">Registration Number*</label>
+           <div class="col-sm-6">
+             <input class="form-control" type="text" id="reg_num" name="reg_num" value="{{ reg_num}}">
+           </div>
+             <div class="col-sm-4 error_message">{{ reg_num_error }}</div>
+         </div> <!--/.form-group-->
+
+         <div class="form-group">
+           <div class="col-sm-offset-3 col-sm-9" action="/new_project">
+             <input type="submit" class="btn btn-default" name="user_action" value="Refresh">
+             <input type="submit" class="btn btn-default" name="user_action" value="Add">
+           </div>
+         </div> <!--./form-group-->
+       </form>
+   </div> <!--col-md-6-->
+ </div>
+{% endblock %}

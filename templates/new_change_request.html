@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}New Change Request{% endblock %}
+
+{% block navbar_requests %}
+  <li><a href="/change_requests">Change Requests</a></li>
+  <li class="active"><a href="/new_change_request">New Change Request</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+      <div class="col-md-12 flash-msg">
+          {{ up_msg }}
+      </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript">
+       $(function() {
+      
+       {% for i in range(4) %}
+               $("#start_date_{{i}}").datepicker({ dateFormat: "dd-mm-yy" })
+               $("#end_date_{{i}}").datepicker({ dateFormat: "dd-mm-yy" })
+        {% endfor %}
+       });
+       
+</script>    
+
+<script type="text/javascript">
+
+onSelect: function setEndDate(val, date_nr){
+
+{% for i in range(4) %}
+var end_date = document.getElementById('end_date_{{i}}').value;
+var start_date = document.getElementById('start_date_{{i}}').value;
+
+if(document.getElementById('start_date_{{i}}').value == val && {{i}} == date_nr){
+document.getElementById('end_date_{{i}}').value = start_date;
+}
+{% endfor %}
+
+}
+</script> 
+
+  <!--Query Forms-->
+  <div class = "row">
+    <div class="col-md-14">
+    <form class="form-horizontal" role="form" method="post">
+      <h4>Change Request Info</h4>
+      <div class="form-group">
+            <label class="control-label col-sm-2" for="description">Description</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="text" id="description" name="description" value="{{ description }}">
+            </div>
+            <div class="col-sm-4 error_message">{{ result_msg }}</div>
+          </div> <!--/.form-group-->
+            <div class="form-group">
+            <label class="control-label col-sm-2" for="applicant">Applicant</label>
+            <div class="col-sm-4">
+              <select class="form-control" id="applicant" name="applicant">
+                <option selected>{{ applicant }}</option>
+                {% for a in applicant_list %}
+                <option >{{ showNone(a) }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Delete applicant">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="new_applicant">New applicant</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="text" id="new_applicant" name="new_applicant" value="{{ new_applicant }}">
+            </div>
+            <div class="col-sm-2">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Add applicant">
+            </div>
+            <div class="col-sm-3 error_message">{{ applicant_error }}</div> 
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="project">Project</label>
+            <div class="col-sm-4">
+              <select class="form-control" id="project" name="project">
+                <option selected>{{ project }}</option>
+                {% for p in project_list %}
+                <option >{{ showNone(p) }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-3 error_message">{{ project_error }}</div>
+          </div> <!--/.form-group-->
+           <div class="form-group">
+            <label class="control-label col-sm-2" for="impact">Impact</label>
+            <div class="col-sm-4">
+              <select class="form-control" id="impact" name="impact">
+                <option selected>{{ impact }}</option>
+                {% for i in impact_list %}
+                <option >{{ showNone(i) }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-3 error_message">{{ impact_error }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="element">Node:Host Name</label>
+            {% for i in range(4) %}
+            <div class="col-sm-2">
+              <select class="form-control" id="element_{{i}}" name="element_{{i}}">
+                  <option selected>{{ elements[i] }}</option>
+                {% for e in element_list %}
+                <option >{{ showNone(e) }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endfor %}
+            <div class="col-sm-2 error_message">{{ date_time_errors[4] }}</div>
+          </div> <!--/.form-group-->
+            <div class="form-group">
+            <label class="control-label col-sm-2" for="start_date">Start date</label>
+            {% for i in range(4) %}
+            <div class="col-sm-2">
+              <input type="text" class="form-control" id="start_date_{{i}}" name="start_date_{{i}}" min="2014-01-01" onchange ='setEndDate(this.value, {{ i }});'
+              value={{start_dates[i] }}>
+            </div>
+            {% endfor %}
+            <div class="col-sm-2 error_message">{{ date_time_errors[0] }}</div>
+            </div><!--./form-group-->
+            <div class="form-group">
+            <label class="control-label col-sm-2" for="start_time">Start time</label>
+            {% for i in range(4) %}
+            <div class="col-sm-2">
+              <select class="form-control" id="start_time_{{i}}" name="start_time_{{i}}">
+                <option selected>{{ start_times[i] }}</option>
+                <option >{{ "NA" }}</option>
+                {% for i in range(24) %}
+                <option >{{ (i) }}:{{"00"}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endfor %}
+            <div class="col-sm-2 error_message">{{ date_time_errors[1] }}</div>
+          </div> <!--/.form-group-->
+            <div class="form-group">
+            <label class="control-label col-sm-2" for="end_date">End date</label>
+            {% for i in range(4) %}
+            <div class="col-sm-2">
+              <input type="text" class="form-control" id="end_date_{{i}}" name="end_date_{{i}}" min="2014-01-01"
+              value={{ end_dates[i] }}>
+            </div>
+            {% endfor %}
+            <div class="col-sm-2 error_message">{{ date_time_errors[2] }}</div>
+          </div><!--./form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="end_time">End time</label>
+            {% for i in range(4) %}
+            <div class="col-sm-2">
+              <select class="form-control" id="end_time_{{i}}" name="end_time_{{i}}">
+                <option selected>{{ end_times[i] }}</option>
+                <option >{{ "NA" }}</option>
+                {% for i in range(24) %}
+                <option >{{ (i) }}:{{"00"}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endfor %}
+            <div class="col-sm-2 error_message">{{ date_time_errors[3] }}</div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="note">Note</label>
+            {% for i in range(4) %}
+            <div class="col-sm-2">
+              <input type="textarea" class="form-control" rows="3" id="note_{{i}}" name="note_{{i}}" value={{ notes[i] }}>
+            </div>
+            {% endfor %}
+          </div><!--./form-group-->
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-9" action="/new_change_request">
+              <input type="submit" class="btn btn-default" name="user_action" value="Add">
+            </div>
+          </div> <!--./form-group-->
+        </form>
+    </div> 
+    </div>
+    
+{% endblock %}
+
+  
+  {% block result %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+  <!--Table to show the result-->
+  <div class="row">
+    <div class="col-md-12 table-responsive">
+      <table class="fixedtable fixedtable_columns_left-4 table table-striped table-hover table-bordered sortable">
+        <thead>
+          <tr>
+            {% for h in column_names %}
+            <th>{{ showNone(h) }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            {% for i in row %}
+            <td>{{ showNone(i) }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

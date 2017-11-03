@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}New Template{% endblock %}
+
+{% block navbar_templates %}
+  <li><a href="/element_templates">Element Templates</a></li>
+  <li class="active"><a href="/new_element_template">New Template</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+    <div class="col-md-4">
+      <h4>{{ up_msg }}</h4>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class = "row">
+    <div class="col-md-8">
+      <h4>New Template</h4>
+      <form class="form-horizontal" role="form" method="post">
+        <div class="form-group"><!--Name-->
+          <label class="control-label col-sm-2" for="tpl_name">Name</label>
+          <div class="col-sm-6">
+            <input class="form-control" id="tpl_name" name="tpl_name" value="{{ showNone(name) }}">
+          </div> <!--/.col-sm-6-->
+          <div class="col-sm-4 error_message">{{ name_error }}</div>
+        </div><!--/.form-group-->
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="note">Note</label>
+          <div class="col-sm-6">
+            <textarea class="form-control" type="textarea" id="tpl_note" name="tpl_note">{{ showNone(note) }}</textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-6">
+            <input type="submit" class="btn btn-default" name="user_action_sta" {% if block_add %} disabled="disabled" {% endif %} value="Add">
+          </div>
+        </div> <!--./form-group-->
+      </form>
+    </div> <!--col-md-12-->
+  </div> <!--/.row-->
+{% endblock %}
