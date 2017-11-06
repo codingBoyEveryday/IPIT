@@ -46,6 +46,20 @@
             </div>
           </div> <!--/.form-group-->
           <div class="form-group">
+            <label class="control-label col-sm-3" for="implementation_manager">Implementation Manager</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="implementation_manager" name="implementation_manager">
+                  <option selected>{{ showNone(project_info[2]) }}</option>
+                  {% if  project_info[2] %}
+                    <option></option>
+                  {% endif %}
+                  {% for e in employee_list %}
+                    <option >{{ e }}</option>
+                  {% endfor %}
+              </select>
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
             <label class="control-label col-sm-3" for="code">Code</label>
             <div class="col-sm-9">
               <input class="form-control" id="code" name="code" value="{{ showNone(project_info[3]) }}">
