@@ -127,6 +127,9 @@ from credential import get_by_name
 from credential import if_logged_in
 from compiler.ast import nodes
 
+from ipit_user_manager import show_all_users
+
+
 
 # Flask app definition
 app = Flask(__name__)
@@ -163,6 +166,9 @@ GROUPS_CAN_ADD_MOD_DEL_HUMAN = ['admin', 'human_admin']
 GROUPS_CAN_MOD_DEPARTMENT = ['admin', 'human_admin']
 GROUPS_CAN_ADD_DEPARTMENT = ['admin', 'human_admin']
 GROUPS_CAN_DEL_DEPARTMENT = ['admin', 'human_admin']
+GROUPS_CAN_ADD_USERS = ['admin', 'human_admin']
+GROUPS_CAN_DEL_USERS = ['admin', 'human_admin']
+
 
 # define important element usages to define coloured rows in csv file
 IMPORTANT_ELEMENT_USAGES = set(['Cfg aanp. + Test Uitv.', 'Software update',
@@ -346,7 +352,7 @@ def new_project():
     kwargs['no_input_error'] = ['','','']
     if request.method=='POST':
         # First collect user inputs.
-        kwargs['name'] = name =normalize_db_value(request.form['name'])
+        kwargs['name'] = name = normalize_db_value(request.form['name'])
         kwargs['management'] = request.form['management']
         kwargs['test_manager'] = request.form['test_manager']
         kwargs['code'] = request.form['code']
@@ -1403,6 +1409,132 @@ def down_pehu_report(ehcwr, prj_id, str_y, str_w, end_y, end_w):
     # Return the file.
     return send_file(
         absfilename, as_attachment=True, attachment_filename=filename)
+
+# ====================All Page Handlers for Users ============================================================
+
+@app.route('/users', methods=['GET', 'POST'])
+
+def users():
+    """
+    Used to print out all IPIT web users.
+    """
+    kwargs = {}
+    kwargs['all_users'] = show_all_users()
+    return render_template('users.html', **kwargs)
+
+# @app.route('/users', methods=['GET', 'POST'])
+# def users():
+#     """The handler for '/projects'."""
+#     kwargs = {}
+#     kwargs['loggedin'], uname, ugroup = if_logged_in(request)
+#     kwargs['block_add'] = False if ugroup in GROUPS_CAN_ADD_USERS else True
+#     kwargs['block_del'] = False if ugroup in GROUPS_CAN_DEL_USERS else True
+#     data_list = get_project_info(DBSession)
+#     kwargs['data_list'] = convert_dates_for_table(data_list)
+#     if not kwargs['block_add'] and request.form.get('user_action') == 'new':
+#         return redirect("/new_project", 302)
+#     elif not kwargs['block_del'] and request.form.get('user_action') == 'del':
+#         return redirect("/del_project", 302)
+#     else:
+#         return render_template('projects.html', **kwargs)
+
+
+# @app.route('/project_<int:prj_id>', methods=['GET', 'POST'])
+# def project_single(prj_id):
+#     kwargs = {}
+#     kwargs['loggedin'], uname, ugroup = if_logged_in(request)
+#     kwargs['block_mod'] = False if ugroup in GROUPS_CAN_MOD_PROJECT else True
+#     # TODO: write function is_owner to link user to test manager.
+#     if get_by_name(uname, target='email') == get_test_manager_email(DBSession, prj_id):
+#         kwargs['block_mod'] = False
+#     kwargs['block_del'] = False if ugroup in GROUPS_CAN_DEL_PROJECT else True
+#     year, week = datetime.now().isocalendar()[:2] #[year, week]
+#     kwargs['time_line'] = [year, week, year, week]
+#     project_info = get_project_info(DBSession, prj_id)
+#     kwargs['project_info'] = convert_dates_for_table(project_info, one_row = True)
+#     kwargs['employee_list'] = gen_employee_list(DBSession)
+#     kwargs['priority_list'] = gen_priority_list(DBSession)
+#     kwargs['department_list'] = gen_department_list(DBSession)
+#     kwargs['domain_list'] = gen_domain_list(DBSession)
+#     kwargs['p_type'] = 'Human'
+#     kwargs['prj_id'] = prj_id
+#     kwargs['time_errors'] = [""] * 4
+#     if request.method == 'POST':
+#         if request.form.get('project_info'):
+#             if request.form.get('project_info') == 'Change' and not kwargs['block_mod']:  # User changed Project static information
+#                 update_project(DBSession, prj_id, request.form)
+#                 return redirect("/project_{0}".format(prj_id), 302)
+#             elif request.form.get('project_info') == 'Delete'and not kwargs['block_del']:  # User delete this project
+#                 del_project(DBSession, kwargs['project_info'][0])
+#                 return redirect("/projects", 302)
+#             else:
+#                 return "Error: project_info takes invalid value."
+#         elif request.form.get('plan_info'):
+#             kwargs['p_type'] = request.form['plan_type']
+#             kwargs['time_line'] = [request.form['start_year'], request.form['start_week'],
+#                 request.form['end_year'], request.form['end_week']]
+#             valid_time_line, kwargs['time_errors'] = is_valid_time_line(kwargs['time_line'])
+#             kwargs['time_filter'] = request.form.get('time_filter')
+#             if not valid_time_line:  # Jump out when the time line is not valid.
+#                 return render_template('project_single.html', **kwargs)
+#             if request.form.get('plan_info') == 'Edit':  # User tries to edit project plan.
+#                 if kwargs['p_type'] == "Human Allocation":
+#                     url_template = "/allocation_plan_edit_{0}_{1}_{2}_{3}_{4}_{5}_{6}"
+#                 else:
+#                     url_template = "/plan_edit_{0}_{1}_{2}_{3}_{4}_{5}_{6}"
+#                 if request.form.get('time_filter'):  # time_filter will be used in plan_edit
+#                     url = url_template.format(prj_id, kwargs['p_type'], True, *valid_time_line)
+#                 else:
+#                     url = url_template.format(prj_id, kwargs['p_type'], False, *valid_time_line)
+#                 return redirect(url, 302)
+#             elif kwargs['p_type'] == 'Human':  # Human Plan
+#                 kwargs['data'], kwargs['column_names'] = query_human_plan(DBSession, prj_id, valid_time_line)
+#             elif kwargs['p_type'] == 'Element':  # Element Plan
+#                 if request.form.get('time_filter'):
+#                     kwargs['data'], kwargs['column_names'] = query_element_plan(DBSession, prj_id, valid_time_line)
+#                 else:
+#                     kwargs['data'], kwargs['column_names'] = query_element_plan(DBSession, prj_id)
+#             elif kwargs['p_type'] == 'Human Allocation':  # Human Allocation Plan
+#                 kwargs['data'], kwargs['column_names'] = get_allocation_plan_by_prjid(DBSession, valid_time_line, prj_id)
+#             else:
+#                 return "Oops, You should not see this page. There must be a bug. Tell Dewei"
+#         else:
+#             return "Error, expect plan_info/ project_info, but get neither."
+#     return render_template('project_single.html', **kwargs)
+#
+#
+# @app.route('/new_project', methods=['GET', 'POST'])
+# def new_project():
+#     kwargs = {}
+#     kwargs['loggedin'], uname, ugroup = if_logged_in(request)
+#     if ugroup not in GROUPS_CAN_ADD_PROJECT:
+#         return redirect("/", 302)
+#     kwargs['employee_list'] = gen_employee_list(DBSession)
+#     kwargs['priority_list'] = gen_priority_list(DBSession)
+#     kwargs['department_list'] = gen_department_list(DBSession)
+#     kwargs['domain_list'] = gen_domain_list(DBSession)
+#     kwargs['no_input_error'] = ['','','']
+#     if request.method=='POST':
+#         # First collect user inputs.
+#         kwargs['name'] = name = normalize_db_value(request.form['name'])
+#         kwargs['management'] = request.form['management']
+#         kwargs['test_manager'] = request.form['test_manager']
+#         kwargs['code'] = request.form['code']
+#         kwargs['priority'] = request.form['priority']
+#         kwargs['department'] = request.form['department']
+#         kwargs['domain'] = request.form['domain']
+#         kwargs['date_el'] = request.form['date_el']
+#         kwargs['note'] = request.form['note']
+#         kwargs['active'] = request.form.get('active')
+#         # Then verify the inputs
+#         valid_name, kwargs['result_msg'] = is_valid_name(kwargs['name'],
+#             name_list=gen_project_list(DBSession), is_project=True)
+#         valid_input, kwargs['no_input_error'] = valid_project_input(request.form)
+#         # Update DB if name is valid.
+#         if valid_name and valid_input:
+#             kwargs['up_msg'] = add_project(DBSession, request.form)
+#     return render_template('new_project.html', **kwargs)
+
 
 if __name__ == '__main__':
     app.debug = False
