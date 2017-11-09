@@ -10,27 +10,33 @@ def show_all_users():
     Used to print out all IPIT web users.
     """
     conn, c = crd.make_conn_c()
-    user_list = c.execute('SELECT name, email, user_group FROM USERS').fetchall()
+    user_list = c.execute('SELECT id, name, email, user_group FROM USERS').fetchall()
     conn.close()
 
     # Get the longest name and email
-    l_name = 4 # Title name is 4 letters
-    l_email = 5 # Title email is 5 letters
-    l_usergroup = 9
+    # l_name = 4 # Title name is 4 letters
+    # l_email = 5 # Title email is 5 letters
+    # l_usergroup = 9
 
-    for row in user_list:
-        l_name = len(row[0]) if len(row[0]) > l_name else l_name
-        l_email = len(row[1]) if len(row[1]) > l_email else l_email
-        l_usergroup = len(row[2]) if len(row[2]) > l_usergroup else l_usergroup
 
-    result = ""
-    result += "Name"+" "*(l_name-4) + " | Email" + " "*(l_email-5) + " | Usergroup"
-    result +=  "\n" + "_"*l_name + "_|_" + "_"*l_email + "_|_" + "_" * l_usergroup
 
-    for row in user_list:
-        result += "\n" + row[0]+ " "*(l_name-len(row[0])) + " | " + row[1] +" "*(l_email-len(row[1])) + " | " + row[2]
+    # for row in user_list:
+    #     l_name = len(row[0]) if len(row[0]) > l_name else l_name
+    #     l_email = len(row[1]) if len(row[1]) > l_email else l_email
+    #     l_usergroup = len(row[2]) if len(row[2]) > l_usergroup else l_usergroup
 
-    return result
+        # print row[0] + "*****" + row[1] + "*****" + row[2]
+
+    # result = ""
+    # result += "Name"+" "*(l_name-4) + " | Email" + " "*(l_email-5) + " | Usergroup"
+    # result +=  "\n" + "_"*l_name + "_|_" + "_"*l_email + "_|_" + "_" * l_usergroup
+    #
+    # for row in user_list:
+    #     result += "\n" + row[0]+ " "*(l_name-len(row[0])) + " | " + row[1] +" "*(l_email-len(row[1])) + " | " + row[2]
+    #
+    # return result
+
+    return user_list
 
 def add_new_users(u_name, u_pwd, u_email, u_group):
     """
