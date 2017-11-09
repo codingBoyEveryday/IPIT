@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block navbar_users %}
+  <li class="active"><a href="/users">Users</a></li>
+{% endblock %}
+
+{% block up_msg %}
+  <div class="row">
+    <div class="col-md-4">
+      <h4>{{ len(all_users) }} Users found</h4>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12 table-responsive">
+      <table id="main_table" class="fixedtable fixedtable_columns_left-0 table table-striped table-hover sortable TF">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Group</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in all_users %}
+          <tr>
+            <td><a href="users_{{ row[0] }}">{{ row[1] }}</a></td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+
+
+
