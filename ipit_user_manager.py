@@ -37,8 +37,22 @@ def show_all_users():
     # return result
 
     return user_list
+    # print user_list
+
+def get_user_info(user_id):
+
+    """
+    Get user info with user_id
+    """
+    conn, c = crd.make_conn_c()
+    user_list = c.execute("SELECT name, email, user_group FROM USERS WHERE id = '{}';".format(user_id)).fetchall()
+    conn.close()
+
+    return user_list
+
 
 def add_new_users(u_name, u_pwd, u_email, u_group):
+
     """
     Used to add a new user
     """
@@ -48,6 +62,24 @@ def add_new_users(u_name, u_pwd, u_email, u_group):
     except:
         return "Registering failed. Make sure the user name doesn't exist. "\
         "User group can only be: 'admin', 'human_admin', 'element_admin', 'test_manager', 'guest'"
+
+def update_user(user_id, form):
+    """
+    Supporting function for page handler /user_<int:user_id>
+    Used for updating a certain project.
+    Inputs:
+        user_id: int
+        form: dictionary. Get from page request. It contains all info of the user.
+    Outputs:
+    """
+    conn, c = crd.make_conn_c()
+    # c.execute("UPDATE USERS SET name = '{}', email = '{}', user_group = '{}' WHERE id = '{}';".format(form['name'], form['email'], form['user_group'], user_id))
+    # c.execute("UPDATE USERS SET name = '{}' WHERE id = '{}';".format(form['name'], user_id))
+    c.execute("UPDATE USERS SET name = '{}', email = '{}', user_group = '{}' WHERE id = '{}';".format(form['name'], form['email'], form['group'], user_id))
+
+    conn.commit()
+    conn.close()
+
 
 def del_user(u_name):
     """
@@ -105,3 +137,8 @@ if __name__ == '__main__':
             working = False
         else:
             pass
+    a = get_user_info(32)
+    print a
+    print a[0][0]
+    print a[1]
+    print a[2]
