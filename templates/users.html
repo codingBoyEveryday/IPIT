@@ -29,7 +29,7 @@
         <tbody>
           {% for row in all_users %}
           <tr>
-            <td><a href="users_{{ row[0] }}">{{ row[1] }}</a></td>
+            <td><a href="user_{{ row[0] }}">{{ row[1] }}</a></td>
             <td>{{ row[2] }}</td>
             <td>{{ row[3] }}</td>
           </tr>
@@ -40,5 +40,18 @@
   </div>
 {% endblock %}
 
-
+{% block result %}
+  <div class="row">
+    <div class="col-md-12">
+    <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <form class="navbar_form navbar_left" role="search" method="post">
+          <button type="submit" class="btn btn-default" name="user_action" {% if block_add %}disabled="disabled" {% endif %} value="new">New</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
 
