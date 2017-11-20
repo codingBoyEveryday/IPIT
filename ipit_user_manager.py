@@ -13,6 +13,8 @@ def show_all_users():
     user_list = c.execute('SELECT id, name, email, user_group FROM USERS').fetchall()
     conn.close()
 
+    return user_list
+
     # Get the longest name and email
     # l_name = 4 # Title name is 4 letters
     # l_email = 5 # Title email is 5 letters
@@ -36,8 +38,6 @@ def show_all_users():
     #
     # return result
 
-    return user_list
-    # print user_list
 
 def get_user_info(user_id):
 
@@ -73,8 +73,6 @@ def update_user(user_id, form):
     Outputs:
     """
     conn, c = crd.make_conn_c()
-    # c.execute("UPDATE USERS SET name = '{}', email = '{}', user_group = '{}' WHERE id = '{}';".format(form['name'], form['email'], form['user_group'], user_id))
-    # c.execute("UPDATE USERS SET name = '{}' WHERE id = '{}';".format(form['name'], user_id))
     c.execute("UPDATE USERS SET name = '{}', email = '{}', user_group = '{}' WHERE id = '{}';".format(form['name'], form['email'], form['group'], user_id))
 
     conn.commit()

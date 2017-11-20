@@ -362,6 +362,7 @@ def new_project():
         kwargs['name'] = name = normalize_db_value(request.form['name'])
         kwargs['management'] = request.form['management']
         kwargs['test_manager'] = request.form['test_manager']
+        # kwargs['implementation_manager'] = request.form['implementation_manager']
         kwargs['code'] = request.form['code']
         kwargs['priority'] = request.form['priority']
         kwargs['department'] = request.form['department']
@@ -508,6 +509,7 @@ def element_templates():
         return redirect('/new_element_template')
 
     return render_template('element_templates.html', **kwargs)
+
 
 @app.route('/element_template_<int:tpl_id>', methods=['GET', 'POST'])
 def element_template_single(tpl_id):
@@ -1418,31 +1420,7 @@ def down_pehu_report(ehcwr, prj_id, str_y, str_w, end_y, end_w):
         absfilename, as_attachment=True, attachment_filename=filename)
 
 # ====================All Page Handlers for Users ============================================================
-#
-# @app.route('/users', methods=['GET', 'POST'])
-# def users():
-#     """
-#     Used to print out all IPIT web users.
-#     """
-#     kwargs = {}
-#     kwargs['all_users'] = show_all_users()
-#     return render_template('users.html', **kwargs)
 
-# @app.route('/users', methods=['GET', 'POST'])
-# def users():
-#     """The handler for '/projects'."""
-#     kwargs = {}
-#     kwargs['loggedin'], uname, ugroup = if_logged_in(request)
-#     kwargs['block_add'] = False if ugroup in GROUPS_CAN_ADD_USERS else True
-#     kwargs['block_del'] = False if ugroup in GROUPS_CAN_DEL_USERS else True
-#     data_list = get_project_info(DBSession)
-#     kwargs['data_list'] = convert_dates_for_table(data_list)
-#     if not kwargs['block_add'] and request.form.get('user_action') == 'new':
-#         return redirect("/new_project", 302)
-#     elif not kwargs['block_del'] and request.form.get('user_action') == 'del':
-#         return redirect("/del_project", 302)
-#     else:
-#         return render_template('users.html', **kwargs)
 
 @app.route('/users', methods=['GET', 'POST'])
 def users():
@@ -1451,6 +1429,7 @@ def users():
     kwargs['loggedin'], uname, ugroup = if_logged_in(request)
     kwargs['block_add'] = False if ugroup in GROUPS_CAN_ADD_USER else True
     kwargs['all_users'] = show_all_users()
+
     if not kwargs['block_add'] and request.form.get('user_action') == 'new':
         return redirect("/new_user", 302)
     else:
@@ -1484,7 +1463,8 @@ def user_single(user_id):
         else:
             return "Error, expect user_info, but get neither."
     return render_template('user_single.html', **kwargs)
-#
+
+
 @app.route('/new_user', methods=['GET', 'POST'])
 def new_user():
     kwargs = {}
@@ -1492,30 +1472,10 @@ def new_user():
     kwargs['group'] = GROUPS
     if ugroup not in GROUPS_CAN_ADD_USER:
         return redirect("/", 302)
-#     kwargs['employee_list'] = gen_employee_list(DBSession)
-
-#     kwargs['no_input_error'] = ['','','']
-
     if request.method=='POST':
-#         # First collect user inputs.
-#         kwargs['name'] = name = normalize_db_value(request.form['name'])
+    # First collect user inputs.
         kwargs['name'] = request.form['name']
         kwargs['email'] = request.form['email']
-#         kwargs['test_manager'] = request.form['test_manager']
-#         kwargs['code'] = request.form['code']
-#         kwargs['priority'] = request.form['priority']
-#         kwargs['department'] = request.form['department']
-#         kwargs['domain'] = request.form['domain']
-#         kwargs['date_el'] = request.form['date_el']
-#         kwargs['note'] = request.form['note']
-#         kwargs['active'] = request.form.get('active')
-#         # Then verify the inputs
-#         valid_name, kwargs['result_msg'] = is_valid_name(kwargs['name'],
-#             name_list=gen_project_list(DBSession), is_project=True)
-#         valid_input, kwargs['no_input_error'] = valid_project_input(request.form)
-#         # Update DB if name is valid.
-#         if valid_name and valid_input:
-#             kwargs['up_msg'] = add_project(DBSession, request.form)
         kwargs['up_msg'] = add_new_users(request.form['name'], request.form['pwd'], request.form['email'], request.form['group'])
     return render_template('new_user.html', **kwargs)
 
