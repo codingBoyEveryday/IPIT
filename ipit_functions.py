@@ -829,6 +829,14 @@ def update_project(DBSession, prj_id, form):
             )
     else:
         project.test_manager_id = None
+
+    if form['implementation_manager']:
+        project.implementation_manager_id = (session.query(Managers.manager_id).
+            filter(Managers.name == form['implementation_manager']).first()[0]
+            )
+    else:
+        project.implementation_manager_id = None
+
     if form['domain']:
         project.domain_id = (session.query(Domains.domain_id).
             filter(Domains.domain == form['domain']).first()[0]

@@ -57,8 +57,9 @@
             <div class="col-sm-6">
               <select class="form-control" id="implementation_manager" name="implementation_manager">
                 <option selected>{{ implementation_manager }}</option>
-                {% for e in employee_list %}
+                {% for e in manager_list %}
                 <option >{{ showNone(e) }}</option>
+                <!--<option >{{ e }}</option>-->
                 {% endfor %}
               </select>
             </div>

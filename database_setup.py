@@ -136,7 +136,7 @@ class Projects(Base):
     note = Column(Text)
     department_id = Column(Integer, ForeignKey('Departments.department_id'))
     test_manager_id = Column(Integer, ForeignKey('Employees.employee_id'))
-    implementation_manager_id = Column(Integer, ForeignKey('Employees.employee_id'))
+    implementation_manager_id = Column(Integer, ForeignKey('Managers.manager_id'))
     domain_id = Column(Integer, ForeignKey('Domains.domain_id'))
     priority_id = Column(Integer, ForeignKey('Priorities.priority_id'))
     code = Column(Text)  # 2-Aug removed the nullable restriction cause so many projcts doesn't have code.

@@ -358,6 +358,7 @@ def new_project():
     if ugroup not in GROUPS_CAN_ADD_PROJECT:
         return redirect("/", 302)
     kwargs['employee_list'] = gen_employee_list(DBSession)
+    kwargs['manager_list'] = gen_manager_list(DBSession)
     kwargs['priority_list'] = gen_priority_list(DBSession)
     kwargs['department_list'] = gen_department_list(DBSession)
     kwargs['domain_list'] = gen_domain_list(DBSession)
