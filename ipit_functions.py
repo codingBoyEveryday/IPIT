@@ -1426,6 +1426,9 @@ def add_project(DBSession, form):
     if form.get('test_manager'):
         new_prj.test_manager_id = session.query(Employees.employee_id).filter(
             Employees.name == form['test_manager']).first()[0]
+    if form.get('implementation_manager'):
+        new_prj.implementation_manager_id = session.query(Managers.manager_id).filter(
+            Managers.name == form['implementation_manager']).first()[0]
     if form.get('domain'):
         new_prj.domain_id = session.query(Domains.domain_id).filter(
             Domains.domain == form['domain']).first()[0]
