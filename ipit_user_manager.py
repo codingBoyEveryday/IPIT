@@ -97,46 +97,46 @@ def del_user(u_name):
         conn.close()
         return "Deleting failed."
 
-if __name__ == '__main__':
-    working = True
-    print "Welcome to IPIT User manager. Here you can manage all account for IPIT 2.0"
-    while working:
-        msg =  "\n============================\n"
-        msg +=  "Please choose your action:\n"
-        msg += "1: Show all users\n"
-        msg += "2: Add a new user.\n"
-        msg += "3: Delete a user.\n"
-        msg += "4: Set a user's password.\n"
-        msg += "5: exit.\n"
-        msg += "============================"
-        print msg
-        choice = raw_input("> ")
-        if choice == '1':
-            print show_all_users()
-        elif choice == '2':
-            u_name = raw_input('User Name: ')
-            u_pwd = raw_input('Password: ')
-            u_email = raw_input('Email: ')
-            print "Valid gourps: admin, human_admin, element_admin, test_manager, guest"
-            u_group = raw_input('Group: ')
-            while u_group not in ['admin', 'human_admin', 'element_admin', 'test_manager', 'guest']:
-                print "Usergroup name invalid."
-                print "Please choose from: admin, human_admin, element_admin, test_manager, guest"
-                u_group = raw_input('Group: ')
-            print add_new_users(u_name, u_pwd, u_email, u_group)
-        elif choice == '3':
-            u_name = raw_input('User Name: ')
-            print del_user(u_name)
-        elif choice == '4':
-            u_name = raw_input('User Name: ')
-            u_pwd = raw_input('Password: ')
-            print crd.update_pwd(u_name, u_pwd)
-        elif choice == '5':
-            working = False
-        else:
-            pass
-    a = get_user_info(32)
-    print a
-    print a[0][0]
-    print a[1]
-    print a[2]
+# if __name__ == '__main__':
+#     working = True
+#     print "Welcome to IPIT User manager. Here you can manage all account for IPIT 2.0"
+#     while working:
+#         msg =  "\n============================\n"
+#         msg +=  "Please choose your action:\n"
+#         msg += "1: Show all users\n"
+#         msg += "2: Add a new user.\n"
+#         msg += "3: Delete a user.\n"
+#         msg += "4: Set a user's password.\n"
+#         msg += "5: exit.\n"
+#         msg += "============================"
+#         print msg
+#         choice = raw_input("> ")
+#         if choice == '1':
+#             print show_all_users()
+#         elif choice == '2':
+#             u_name = raw_input('User Name: ')
+#             u_pwd = raw_input('Password: ')
+#             u_email = raw_input('Email: ')
+#             print "Valid gourps: admin, human_admin, element_admin, test_manager, guest"
+#             u_group = raw_input('Group: ')
+#             while u_group not in ['admin', 'human_admin', 'element_admin', 'test_manager', 'guest']:
+#                 print "Usergroup name invalid."
+#                 print "Please choose from: admin, human_admin, element_admin, test_manager, guest"
+#                 u_group = raw_input('Group: ')
+#             print add_new_users(u_name, u_pwd, u_email, u_group)
+#         elif choice == '3':
+#             u_name = raw_input('User Name: ')
+#             print del_user(u_name)
+#         elif choice == '4':
+#             u_name = raw_input('User Name: ')
+#             u_pwd = raw_input('Password: ')
+#             print crd.update_pwd(u_name, u_pwd)
+#         elif choice == '5':
+#             working = False
+#         else:
+#             pass
+#     a = get_user_info(32)
+#     print a
+#     print a[0][0]
+#     print a[1]
+#     print a[2]

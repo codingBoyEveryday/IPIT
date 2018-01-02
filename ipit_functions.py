@@ -14,6 +14,7 @@ from sqlalchemy.sql import label
 from sqlalchemy.sql import func
 
 from database_setup import Employees
+from database_setup import Managers
 from database_setup import Projects
 from database_setup import ProjectHumanUsages
 from database_setup import ProjectPlans
@@ -953,6 +954,22 @@ def gen_employee_list(DBSession, contain_id=False, full=False, hide_sensitive=Tr
     session.close()
 
     return result
+
+
+def gen_manager_list(DBSession):
+    """
+    Return a list of manager names.
+    """
+    # Construct query targets:
+    nkw = [Managers.name]
+    session = DBSession()
+    q = session.query(*nkw)
+    result = q.all()
+    result = [x[0] for x in result]  # Avoid getting list of tuples with single element.
+    session.close()
+
+    return result
+
 
 def gen_element_id_list(DBSession, data):
     """
@@ -2356,9 +2373,17 @@ def get_project_info(DBSession, prj_id=None):
     """
     session = DBSession()
     # First set Common query part
-    nkwargs = [Projects.name, Projects.management, Employees.name, Projects.code,
-        Priorities.priority, Departments.department, Domains.domain,
-        Projects.date_EL, Projects.active]
+    # nkwargs = [Projects.name, Projects.management, Employees.name, Projects.code,
+    #     Priorities.priority, Departments.department, Domains.domain,
+    #     Projects.date_EL, Projects.active]
+
+    # nkwargs = [Projects.name, Projects.management, Employees.name, Employees.name, Projects.code,
+    #            Priorities.priority, Departments.department, Domains.domain,
+    #            Projects.date_EL, Projects.active]
+
+    nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
+               Priorities.priority, Departments.department, Domains.domain,
+               Projects.date_EL, Projects.active]
     # Depends on the situation, modify the query inputs.
     if prj_id:
         nkwargs.append(Projects.note)
@@ -2368,10 +2393,17 @@ def get_project_info(DBSession, prj_id=None):
         q = session.query(*nkwargs)
 
     q = q.outerjoin(Employees, Projects.test_manager_id == Employees.employee_id
+        ).outerjoin(Managers, Projects.implementation_manager_id == Managers.manager_id
         ).outerjoin(Priorities, Projects.priority_id == Priorities.priority_id
         ).outerjoin(Departments, Projects.department_id == Departments.department_id
         ).outerjoin(Domains, Projects.domain_id == Domains.domain_id
         ).order_by(Projects.active.desc(), Projects.date_EL.desc())
+
+    # q = q.outerjoin(Employees, Projects.test_manager_id == Employees.employee_id
+    #     ).outerjoin(Priorities, Projects.priority_id == Priorities.priority_id
+    #     ).outerjoin(Departments, Projects.department_id == Departments.department_id
+    #     ).outerjoin(Domains, Projects.domain_id == Domains.domain_id
+    #     ).order_by(Projects.active.desc(), Projects.date_EL.desc())
     if prj_id:
         result = q.one()
     else:

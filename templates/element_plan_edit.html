@@ -136,7 +136,27 @@ sb.scrollTop(
                 {% endfor %}
               </select>
             </div>
-            <div class="col-sm-2 error_message">{{ no_records_error }}</div>
+            <!--<div class="col-sm-2 error_message">{{ no_records_error }}</div>-->
+            <div class="col-sm-1">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Copy">
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="copy_project">Copy Team</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="copy_team" name="copy_team">
+                {% if selected_project %}
+                  <option selected value="{{ selected_project[0] }}">{{ selected_project[1] }}</option>
+                {% endif %}
+                {% for p in project_list %}
+                  <option value="{{ p[0] }}">{{ p[1] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <!--<div class="col-sm-2 error_message">{{ no_records_error }}</div>-->
+            <div class="col-sm-1">
+              <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Copy">
+            </div>
           </div> <!--/.form-group-->
           <div class="form-group">
             <label class="control-label col-sm-2" for="cp_year">Year</label>
@@ -151,10 +171,9 @@ sb.scrollTop(
               <input class="form-control" type="text" id="cp_week" name="cp_week" value="{{cp_time[1]}}">
             </div>
             <div class="col-sm-2 error_message">{{cp_errors[1]}}</div>
-            <div class="col-sm-1">
+            <!--<div class="col-sm-1">
               <input type="submit" class="btn btn-default" name="user_action" {% if block_mod %} disabled="disabled" {% endif %} value="Copy">
-            </div>
-          </div> <!--/.form-group-->
+            </div>-->          </div> <!--/.form-group-->
         </form>
     </div> <!--col-md-6-->
   </div> <!--/.row-->

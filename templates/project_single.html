@@ -49,11 +49,11 @@
             <label class="control-label col-sm-3" for="implementation_manager">Implementation Manager</label>
             <div class="col-sm-9">
               <select class="form-control" id="implementation_manager" name="implementation_manager">
-                  <option selected>{{ showNone(project_info[2]) }}</option>
-                  {% if  project_info[2] %}
+                  <option selected>{{ showNone(project_info[3]) }}</option>
+                  {% if  project_info[3] %}
                     <option></option>
                   {% endif %}
-                  {% for e in employee_list %}
+                  {% for e in manager_list %}
                     <option >{{ e }}</option>
                   {% endfor %}
               </select>
@@ -62,14 +62,14 @@
           <div class="form-group">
             <label class="control-label col-sm-3" for="code">Code</label>
             <div class="col-sm-9">
-              <input class="form-control" id="code" name="code" value="{{ showNone(project_info[3]) }}">
+              <input class="form-control" id="code" name="code" value="{{ showNone(project_info[4]) }}">
             </div>
           </div> <!--/.form-group-->
           <div class="form-group">
             <label class="control-label col-sm-3" for="priority">Priority</label>
             <div class="col-sm-9">
               <select class="form-control" id="priority" name="priority">
-                  <option selected>{{ project_info[4] }}</option>
+                  <option selected>{{ project_info[5] }}</option>
                   {% for p in priority_list %}
                   <option >{{ p }}</option>
                   {% endfor %}
@@ -80,7 +80,7 @@
             <label class="control-label col-sm-3" for="department">Department</label>
             <div class="col-sm-9">
               <select class="form-control" id="department" name="department">
-                  <option selected>{{ showNone(project_info[5]) }}</option>
+                  <option selected>{{ showNone(project_info[6]) }}</option>
                   {% for d in department_list %}
                   <option >{{ d }}</option>
                   {% endfor %}
@@ -91,7 +91,7 @@
             <label class="control-label col-sm-3" for="domain">Domain</label>
             <div class="col-sm-9">
               <select class="form-control" id="domain" name="domain">
-                  <option selected>{{ showNone(project_info[6]) }}</option>
+                  <option selected>{{ showNone(project_info[7]) }}</option>
                   {% for d in domain_list %}
                   <option >{{ d }}</option>
                   {% endfor %}
@@ -101,23 +101,23 @@
           <div class="form-group">
             <label class="control-label col-sm-3" for="date_el">Date EL</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="date_el" name="date_el" value="{{ showNone(project_info[7]) }}" min="2014-01-01">
+              <input type="text" class="form-control" id="date_el" name="date_el" value="{{ showNone(project_info[8]) }}" min="2014-01-01">
             </div><!--/.col-sm-9-->
           </div><!--./form-group-->
           <div class="form-group">
             <label class="control-label col-sm-3" for="note">Note</label>
             <div class="col-sm-9">
-              <textarea type="textarea" class="form-control" rows="3" id="note" name="note">{{ showNone(project_info[9]) }}</textarea>
+              <textarea type="textarea" class="form-control" rows="3" id="note" name="note">{{ showNone(project_info[10]) }}</textarea>
             </div><!--/.col-sm-9-->
           </div><!--./form-group-->
           <div class="form-group">
             <label class="control-label col-sm-3" for="active">Active</label>
             <div class="col-sm-9">
               <label class="radio-inline">
-                <input type="radio" name="active" id="active" value="active" {% if project_info[8] is sameas True %} checked {% endif %}/> Active
+                <input type="radio" name="active" id="active" value="active" {% if project_info[9] is sameas True %} checked {% endif %}/> Active
               </label>
               <label class="radio-inline">
-                <input type="radio" name="active" id="closed" value="closed" {% if project_info[8] is sameas False %} checked {% endif %}/> Closed
+                <input type="radio" name="active" id="closed" value="closed" {% if project_info[9] is sameas False %} checked {% endif %}/> Closed
               </label>
             </div><!--/.col-sm-9-->
           </div><!--./form-group-->
