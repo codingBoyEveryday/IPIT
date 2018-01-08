@@ -816,7 +816,7 @@ def new_change_request():
                 kwargs['applicant'] = '' #empty the applicant field 
                 kwargs['applicant_list'] = gen_applicant_list(DBSession) # refresh applicant list
         # First collect user inputs.
-        elif request.form['user_action'] == 'Add' and not kwargs['block_add']:
+        elif request.form['user_action'] == 'Save' and not kwargs['block_add']:
              #validation of date/time depends on element
             valid_date_time, kwargs['date_time_errors'] = is_valid_date_time(kwargs['start_dates'], 
                         kwargs['start_times'], kwargs['end_dates'], kwargs['end_times'], kwargs['elements'])
