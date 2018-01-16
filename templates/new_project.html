@@ -36,6 +36,18 @@
             <div class="col-sm-3 error_message">{{ result_msg }}</div>
           </div> <!--/.form-group-->
           <div class="form-group">
+            <label class="control-label col-sm-2" for="flag">Type</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="flag" name="flag">
+                <option selected>{{ flag }}</option>
+                {% for e in flag_list %}
+                <option >{{ showNone(e) }}</option>
+                <!--<option >{{ e }}</option>-->
+                {% endfor %}
+              </select>
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
             <label class="control-label col-sm-2" for="management">Management</label>
             <div class="col-sm-6">
               <input class="form-control" type="text" id="management" name="management" value="{{ management }}">

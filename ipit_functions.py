@@ -816,6 +816,7 @@ def update_project(DBSession, prj_id, form):
     project = session.query(Projects).filter_by(project_id=prj_id).first()
     project.name = normalize_db_value(form['name'])
     project.management = form['management']
+    project.flag = form['flag']
     project.active = (form['active'] == 'active')
     project.note = form['note']
     print repr(form['note'])
@@ -978,6 +979,20 @@ def gen_manager_list(DBSession):
 
     return result
 
+
+# def gen_flag_list(DBSession):
+#     """
+#     Return a list of manager names.
+#     """
+#     # Construct query targets:
+#     nkw = [Projects.flag]
+#     session = DBSession()
+#     q = session.query(*nkw)
+#     result = q.all()
+#     result = [x[0] for x in result]  # Avoid getting list of tuples with single element.
+#     session.close()
+#
+#     return result
 
 def gen_element_id_list(DBSession, data):
     """
@@ -1417,6 +1432,7 @@ def add_project(DBSession, form):
     new_prj.management = form['management']
     new_prj.note = form['note']
     new_prj.code = form['code']
+    new_prj.flag = form['flag']
     if form['date_el']:
         new_prj.date_EL = convert_date_format(form['date_el'])
 
@@ -2397,7 +2413,7 @@ def get_project_info(DBSession, prj_id=None):
     #            Projects.date_EL, Projects.active]
     nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
                Priorities.priority, Departments.department, Domains.domain,
-               Projects.date_EL, Projects.active, Projects.flag]
+               Projects.date_EL, Projects.active, Projects.flag, Projects.note]
     # Depends on the situation, modify the query inputs.
     if prj_id:
         nkwargs.append(Projects.note)

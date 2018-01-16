@@ -31,6 +31,7 @@ from ipit_functions import update_project
 from ipit_functions import update_employee
 from ipit_functions import gen_employee_list
 from ipit_functions import gen_manager_list
+# from ipit_functions import gen_flag_list
 from ipit_functions import gen_priority_list
 from ipit_functions import gen_department_list
 from ipit_functions import gen_project_list
@@ -301,6 +302,7 @@ def project_single(prj_id):
     kwargs['project_info'] = convert_dates_for_table(project_info, one_row = True)
     kwargs['employee_list'] = gen_employee_list(DBSession)
     kwargs['manager_list'] = gen_manager_list(DBSession)
+    kwargs['flag_list'] = ['PROJECT', 'TEAM']
     kwargs['priority_list'] = gen_priority_list(DBSession)
     kwargs['department_list'] = gen_department_list(DBSession)
     kwargs['domain_list'] = gen_domain_list(DBSession)
@@ -359,6 +361,8 @@ def new_project():
         return redirect("/", 302)
     kwargs['employee_list'] = gen_employee_list(DBSession)
     kwargs['manager_list'] = gen_manager_list(DBSession)
+    # kwargs['flag_list'] = gen_flag_list(DBSession)
+    kwargs['flag_list'] = ['PROJECT','TEAM']
     kwargs['priority_list'] = gen_priority_list(DBSession)
     kwargs['department_list'] = gen_department_list(DBSession)
     kwargs['domain_list'] = gen_domain_list(DBSession)
@@ -366,6 +370,7 @@ def new_project():
     if request.method=='POST':
         # First collect user inputs.
         kwargs['name'] = name = normalize_db_value(request.form['name'])
+        kwargs['flag'] = request.form['flag']
         kwargs['management'] = request.form['management']
         kwargs['test_manager'] = request.form['test_manager']
         kwargs['implementation_manager'] = request.form['implementation_manager']

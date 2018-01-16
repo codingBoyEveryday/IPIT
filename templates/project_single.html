@@ -26,6 +26,20 @@
             </div>
           </div> <!--/.form-group-->
           <div class="form-group">
+            <label class="control-label col-sm-3" for="flag">Type</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="flag" name="flag">
+                  <option selected>{{ showNone(project_info[10]) }}</option>
+                  {% if  project_info[10] %}
+                    <option></option>
+                  {% endif %}
+                  {% for e in flag_list %}
+                    <option >{{ e }}</option>
+                  {% endfor %}
+              </select>
+            </div>
+          </div> <!--/.form-group-->
+          <div class="form-group">
             <label class="control-label col-sm-3" for="management">Management</label>
             <div class="col-sm-9">
               <input class="form-control" type="text" id="management" name="management" value="{{ project_info[1] }}">
@@ -107,7 +121,7 @@
           <div class="form-group">
             <label class="control-label col-sm-3" for="note">Note</label>
             <div class="col-sm-9">
-              <textarea type="textarea" class="form-control" rows="3" id="note" name="note">{{ showNone(project_info[10]) }}</textarea>
+              <textarea type="textarea" class="form-control" rows="3" id="note" name="note">{{ showNone(project_info[11]) }}</textarea>
             </div><!--/.col-sm-9-->
           </div><!--./form-group-->
           <div class="form-group">
