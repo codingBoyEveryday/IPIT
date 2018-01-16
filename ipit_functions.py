@@ -2392,9 +2392,12 @@ def get_project_info(DBSession, prj_id=None):
     #            Priorities.priority, Departments.department, Domains.domain,
     #            Projects.date_EL, Projects.active]
 
+    # nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
+    #            Priorities.priority, Departments.department, Domains.domain,
+    #            Projects.date_EL, Projects.active]
     nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
                Priorities.priority, Departments.department, Domains.domain,
-               Projects.date_EL, Projects.active]
+               Projects.date_EL, Projects.active, Projects.flag]
     # Depends on the situation, modify the query inputs.
     if prj_id:
         nkwargs.append(Projects.note)

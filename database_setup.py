@@ -5,6 +5,7 @@
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import Numeric
+from sqlalchemy import String
 from sqlalchemy import Text
 from sqlalchemy import ForeignKey
 from sqlalchemy import Date
@@ -133,6 +134,7 @@ class Projects(Base):
     name = Column(Text, nullable=False, unique=True)
     management = Column(Text)
     active = Column(Boolean, nullable=False)
+    flag = Column(String, nullable=False)
     note = Column(Text)
     department_id = Column(Integer, ForeignKey('Departments.department_id'))
     test_manager_id = Column(Integer, ForeignKey('Employees.employee_id'))
