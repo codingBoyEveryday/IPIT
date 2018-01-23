@@ -2400,27 +2400,19 @@ def get_project_info(DBSession, prj_id=None):
     """
     session = DBSession()
     # First set Common query part
-    # nkwargs = [Projects.name, Projects.management, Employees.name, Projects.code,
-    #     Priorities.priority, Departments.department, Domains.domain,
-    #     Projects.date_EL, Projects.active]
 
-    # nkwargs = [Projects.name, Projects.management, Employees.name, Employees.name, Projects.code,
-    #            Priorities.priority, Departments.department, Domains.domain,
-    #            Projects.date_EL, Projects.active]
-
-    # nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
-    #            Priorities.priority, Departments.department, Domains.domain,
-    #            Projects.date_EL, Projects.active]
     nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
                Priorities.priority, Departments.department, Domains.domain,
-               Projects.date_EL, Projects.active, Projects.flag, Projects.note]
+               Projects.date_EL, Projects.active, Projects.flag]
     # Depends on the situation, modify the query inputs.
+    # print nkwargs[0]
     if prj_id:
         nkwargs.append(Projects.note)
         q = session.query(*nkwargs).filter(Projects.project_id == prj_id)
     else:
         nkwargs.insert(0, Projects.project_id)
-        q = session.query(*nkwargs)
+        # q = session.query(*nkwargs)
+        q = session.query(*nkwargs).filter(Projects.flag == 'PROJECT')
 
     q = q.outerjoin(Employees, Projects.test_manager_id == Employees.employee_id
         ).outerjoin(Managers, Projects.implementation_manager_id == Managers.manager_id
@@ -2429,11 +2421,42 @@ def get_project_info(DBSession, prj_id=None):
         ).outerjoin(Domains, Projects.domain_id == Domains.domain_id
         ).order_by(Projects.active.desc(), Projects.date_EL.desc())
 
-    # q = q.outerjoin(Employees, Projects.test_manager_id == Employees.employee_id
-    #     ).outerjoin(Priorities, Projects.priority_id == Priorities.priority_id
-    #     ).outerjoin(Departments, Projects.department_id == Departments.department_id
-    #     ).outerjoin(Domains, Projects.domain_id == Domains.domain_id
-    #     ).order_by(Projects.active.desc(), Projects.date_EL.desc())
+    if prj_id:
+        result = q.one()
+    else:
+        result = q.all()
+    session.close()
+    return result
+
+def get_team_info(DBSession, prj_id=None):
+    """
+    Used to generate a table to show in page /projects
+    Option parameter prj_id. When not present. Result is generated for a whole projects list view.
+    When prj_id present, result is for one project to show in page /single_project
+    """
+    session = DBSession()
+    # First set Common query part
+
+    nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
+               Priorities.priority, Departments.department, Domains.domain,
+               Projects.date_EL, Projects.active, Projects.flag]
+    # Depends on the situation, modify the query inputs.
+    # print nkwargs[0]
+    if prj_id:
+        nkwargs.append(Projects.note)
+        q = session.query(*nkwargs).filter(Projects.project_id == prj_id)
+    else:
+        nkwargs.insert(0, Projects.project_id)
+        # q = session.query(*nkwargs)
+        q = session.query(*nkwargs).filter(Projects.flag == 'TEAM')
+
+    q = q.outerjoin(Employees, Projects.test_manager_id == Employees.employee_id
+        ).outerjoin(Managers, Projects.implementation_manager_id == Managers.manager_id
+        ).outerjoin(Priorities, Projects.priority_id == Priorities.priority_id
+        ).outerjoin(Departments, Projects.department_id == Departments.department_id
+        ).outerjoin(Domains, Projects.domain_id == Domains.domain_id
+        ).order_by(Projects.active.desc(), Projects.date_EL.desc())
+
     if prj_id:
         result = q.one()
     else:
