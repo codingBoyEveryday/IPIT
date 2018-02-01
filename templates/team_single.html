@@ -25,7 +25,7 @@
               <input class="form-control" type="text" id="name" name="name" value="{{ team_info[0] }}">
             </div>
           </div> <!--/.form-group-->
-          <div class="form-group">
+          <!--<div class="form-group">
             <label class="control-label col-sm-3" for="flag">Type</label>
             <div class="col-sm-9">
               <select class="form-control" id="flag" name="flag">
@@ -39,14 +39,14 @@
               </select>
             </div>
           </div> <!--/.form-group-->
-          <div class="form-group">
+          <!--<div class="form-group">
             <label class="control-label col-sm-3" for="management">Management</label>
             <div class="col-sm-9">
               <input class="form-control" type="text" id="management" name="management" value="{{ team_info[1] }}">
             </div>
           </div> <!--/.form-group-->
           <div class="form-group">
-            <label class="control-label col-sm-3" for="test_manager">Test Manager</label>
+            <label class="control-label col-sm-3" for="test_manager">Product Owner</label>
             <div class="col-sm-9">
               <select class="form-control" id="test_manager" name="test_manager">
                   <option selected>{{ showNone(team_info[2]) }}</option>
@@ -60,7 +60,7 @@
             </div>
           </div> <!--/.form-group-->
           <div class="form-group">
-            <label class="control-label col-sm-3" for="implementation_manager">Implementation Manager</label>
+            <label class="control-label col-sm-3" for="implementation_manager">Scrum Master</label>
             <div class="col-sm-9">
               <select class="form-control" id="implementation_manager" name="implementation_manager">
                   <option selected>{{ showNone(team_info[3]) }}</option>
@@ -73,13 +73,13 @@
               </select>
             </div>
           </div> <!--/.form-group-->
-          <div class="form-group">
+          <!--<div class="form-group">
             <label class="control-label col-sm-3" for="code">Code</label>
             <div class="col-sm-9">
               <input class="form-control" id="code" name="code" value="{{ showNone(team_info[4]) }}">
             </div>
           </div> <!--/.form-group-->
-          <div class="form-group">
+          <!--<div class="form-group">
             <label class="control-label col-sm-3" for="priority">Priority</label>
             <div class="col-sm-9">
               <select class="form-control" id="priority" name="priority">
@@ -89,8 +89,8 @@
                   {% endfor %}
               </select>
             </div> <!--/.col-sm-9-->
-          </div>  <!--./form-group-->
-          <div class="form-group">
+          <!--</div>  <!--./form-group-->
+          <!--<div class="form-group">
             <label class="control-label col-sm-3" for="department">Department</label>
             <div class="col-sm-9">
               <select class="form-control" id="department" name="department">
@@ -100,8 +100,8 @@
                   {% endfor %}
               </select>
             </div> <!--/.col-sm-9-->
-          </div>  <!--./form-group-->
-          <div class="form-group">
+          <!--</div>  <!--./form-group-->
+          <!--<div class="form-group">
             <label class="control-label col-sm-3" for="domain">Domain</label>
             <div class="col-sm-9">
               <select class="form-control" id="domain" name="domain">
@@ -111,7 +111,7 @@
                   {% endfor %}
               </select>
             </div> <!--/.col-sm-9-->
-          </div> <!--/.form-group-->
+          <!--</div> <!--/.form-group-->
           <div class="form-group">
             <label class="control-label col-sm-3" for="date_el">Date EL</label>
             <div class="col-sm-9">
@@ -176,7 +176,7 @@
               </div>
               <div class="col-sm-4 error_message">{{ time_errors[3] }}</div>
           </div> <!--/.form-group-->
-          <div class="form-group">
+          <!--<div class="form-group">
             <label class="control-label col-sm-2" for="plan_type">Type</label>
             <div class="col-sm-6">
               <select class="form-control" id="plan_type" name="plan_type">
@@ -185,7 +185,7 @@
                 <option {% if p_type == 'Human Allocation' %} selected {% endif %} value="Human Allocation">Human Allocation</option>
               </select>
             </div> <!--/.col-sm-9-->
-          </div> <!--/.form-group-->
+          <!--</div> <!--/.form-group-->
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
             <label>
@@ -212,12 +212,12 @@
   <!--Table to show the result-->
   <div class="row">
     <div class="col-md-12 table-responsive">
-    {% if p_type == 'Human' or p_type == 'Human Allocation' %}
-    <table class="fixedtable fixedtable_columns_left-2 table table-striped table-hover table-bordered">
-            {% endif %}
-    {% if p_type == 'Element' %}
-      <table class=" fixedtable fixedtable_columns_left-3 table table-striped table-hover table-bordered">
-      {% endif %}
+    <!--{% if p_type == 'Human' or p_type == 'Human Allocation' %}
+      <table class="fixedtable fixedtable_columns_left-2 table table-striped table-hover table-bordered">
+        {% endif %}-->
+    <!--{% if p_type == 'Element' %}-->
+      <table class="fixedtable fixedtable_columns_left-3 table table-striped table-hover table-bordered">
+        <!--{% endif %}-->
         <thead>
           <tr>
             {% for h in column_names %}

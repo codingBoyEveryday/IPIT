@@ -28,6 +28,7 @@ from ipit_functions import allocation_plan
 from ipit_functions import query_human_plan
 from ipit_functions import query_element_plan
 from ipit_functions import update_project
+from ipit_functions import update_team
 from ipit_functions import update_employee
 from ipit_functions import gen_employee_list
 from ipit_functions import gen_manager_list
@@ -37,6 +38,7 @@ from ipit_functions import gen_department_list
 from ipit_functions import gen_project_list
 from ipit_functions import gen_domain_list
 from ipit_functions import add_project
+from ipit_functions import add_team
 from ipit_functions import del_project
 from ipit_functions import gen_node_list
 from ipit_functions import update_element
@@ -110,6 +112,7 @@ from ipit_functions import project_selected
 from ipit_functions import impact_selected
 from ipit_functions import del_applicant
 from ipit_functions import valid_project_input
+from ipit_functions import valid_team_input
 from ipit_functions import gen_element_id_list
 from ipit_functions import convert_date_format
 from ipit_functions import convert_dates_for_table
@@ -153,29 +156,29 @@ Base.metadata.bind = ENGINE
 DBSession = sessionmaker(bind=ENGINE)
 
 # Global Policy of user authorities.
-GROUPS = ['admin', 'human_admin', 'element_admin', 'testmanager', 'test_manager', 'guest']
+GROUPS = ['admin', 'human_admin', 'element_admin', 'testmanager', 'test_manager', 'guest', 'developer']
 
-GROUPS_CAN_ADD_PROJECT = ['admin', 'human_admin', 'element_admin']
-GROUPS_CAN_DEL_PROJECT = ['admin', 'human_admin']
-GROUPS_CAN_MOD_PROJECT = ['admin', 'human_admin', 'element_admin']
-GROUPS_CAN_ADD_EMPLOYEE = ['admin', 'human_admin']
-GROUPS_CAN_MOD_EMPLOYEE = ['admin', 'human_admin']
-GROUPS_CAN_ADD_ELEMENT = ['admin', 'element_admin']
-GROUPS_CAN_MOD_ELEMENT = ['admin', 'element_admin']
-GROUPS_CAN_DEL_ELEMENT = ['admin', 'element_admin']
-GROUPS_CAN_MOD_ELEMENT_PLAN = ['admin', 'element_admin']
-GROUPS_CAN_MOD_HUMAN_PLAN = ['admin', 'human_admin']
-GROUPS_CAN_ALLOCATE_HUMAN = ['admin', 'human_admin']
-GROUPS_CAN_ADD_ELEMENT_TEMPLATES = ['admin', 'element_admin']
-GROUPS_CAN_MOD_ELEMENT_TEMPLATES = ['admin', 'element_admin']
-GROUPS_CAN_DEL_ELEMENT_TEMPLATES = ['admin', 'element_admin']
-GROUPS_CAN_ADD_CHANGE_REQUEST = ['admin', 'human_admin', 'element_admin', 'testmanager', 'test_manager']
-GROUPS_CAN_DEL_CHANGE_REQUEST = ['admin', 'human_admin', 'element_admin', 'testmanager', 'test_manager']
-GROUPS_CAN_MOD_CHANGE_REQUEST = ['admin', 'human_admin', 'element_admin', 'testmanager', 'test_manager']
-GROUPS_CAN_ADD_MOD_DEL_HUMAN = ['admin', 'human_admin']
-GROUPS_CAN_MOD_DEPARTMENT = ['admin', 'human_admin']
-GROUPS_CAN_ADD_DEPARTMENT = ['admin', 'human_admin']
-GROUPS_CAN_DEL_DEPARTMENT = ['admin', 'human_admin']
+GROUPS_CAN_ADD_PROJECT = ['admin', 'human_admin', 'element_admin', 'developer']
+GROUPS_CAN_DEL_PROJECT = ['admin', 'human_admin', 'developer']
+GROUPS_CAN_MOD_PROJECT = ['admin', 'human_admin', 'element_admin', 'developer']
+GROUPS_CAN_ADD_EMPLOYEE = ['admin', 'human_admin', 'developer']
+GROUPS_CAN_MOD_EMPLOYEE = ['admin', 'human_admin', 'developer']
+GROUPS_CAN_ADD_ELEMENT = ['admin', 'element_admin', 'developer']
+GROUPS_CAN_MOD_ELEMENT = ['admin', 'element_admin', 'developer']
+GROUPS_CAN_DEL_ELEMENT = ['admin', 'element_admin', 'developer']
+GROUPS_CAN_MOD_ELEMENT_PLAN = ['admin', 'element_admin', 'developer']
+GROUPS_CAN_MOD_HUMAN_PLAN = ['admin', 'human_admin', 'developer']
+GROUPS_CAN_ALLOCATE_HUMAN = ['admin', 'human_admin', 'developer']
+GROUPS_CAN_ADD_ELEMENT_TEMPLATES = ['admin', 'element_admin', 'developer']
+GROUPS_CAN_MOD_ELEMENT_TEMPLATES = ['admin', 'element_admin', 'developer']
+GROUPS_CAN_DEL_ELEMENT_TEMPLATES = ['admin', 'element_admin', 'developer']
+GROUPS_CAN_ADD_CHANGE_REQUEST = ['admin', 'human_admin', 'element_admin', 'testmanager', 'test_manager', 'developer']
+GROUPS_CAN_DEL_CHANGE_REQUEST = ['admin', 'human_admin', 'element_admin', 'testmanager', 'test_manager', 'developer']
+GROUPS_CAN_MOD_CHANGE_REQUEST = ['admin', 'human_admin', 'element_admin', 'testmanager', 'test_manager', 'developer']
+GROUPS_CAN_ADD_MOD_DEL_HUMAN = ['admin', 'human_admin', 'developer']
+GROUPS_CAN_MOD_DEPARTMENT = ['admin', 'human_admin', 'developer']
+GROUPS_CAN_ADD_DEPARTMENT = ['admin', 'human_admin', 'developer']
+GROUPS_CAN_DEL_DEPARTMENT = ['admin', 'human_admin', 'developer']
 GROUPS_CAN_ADD_USER = ['admin', 'human_admin']
 GROUPS_CAN_DEL_USER = ['admin', 'human_admin']
 GROUPS_CAN_MOD_USER = ['admin', 'human_admin']
@@ -303,7 +306,7 @@ def project_single(prj_id):
     kwargs['project_info'] = convert_dates_for_table(project_info, one_row = True)
     kwargs['employee_list'] = gen_employee_list(DBSession)
     kwargs['manager_list'] = gen_manager_list(DBSession)
-    kwargs['flag_list'] = ['PROJECT', 'TEAM']
+    # kwargs['flag_list'] = ['PROJECT', 'TEAM']
     kwargs['priority_list'] = gen_priority_list(DBSession)
     kwargs['department_list'] = gen_department_list(DBSession)
     kwargs['domain_list'] = gen_domain_list(DBSession)
@@ -363,7 +366,7 @@ def new_project():
     kwargs['employee_list'] = gen_employee_list(DBSession)
     kwargs['manager_list'] = gen_manager_list(DBSession)
     # kwargs['flag_list'] = gen_flag_list(DBSession)
-    kwargs['flag_list'] = ['PROJECT','TEAM']
+    # kwargs['flag_list'] = ['PROJECT','TEAM']
     kwargs['priority_list'] = gen_priority_list(DBSession)
     kwargs['department_list'] = gen_department_list(DBSession)
     kwargs['domain_list'] = gen_domain_list(DBSession)
@@ -371,7 +374,8 @@ def new_project():
     if request.method=='POST':
         # First collect user inputs.
         kwargs['name'] = name = normalize_db_value(request.form['name'])
-        kwargs['flag'] = request.form['flag']
+        # kwargs['flag'] = request.form['flag']
+        # kwargs['flag'] = 'PROJECT'
         kwargs['management'] = request.form['management']
         kwargs['test_manager'] = request.form['test_manager']
         kwargs['implementation_manager'] = request.form['implementation_manager']
@@ -429,17 +433,17 @@ def team_single(prj_id):
     kwargs['team_info'] = convert_dates_for_table(team_info, one_row = True)
     kwargs['employee_list'] = gen_employee_list(DBSession)
     kwargs['manager_list'] = gen_manager_list(DBSession)
-    kwargs['flag_list'] = ['PROJECT', 'TEAM']
+    # kwargs['flag_list'] = ['PROJECT', 'TEAM']
     kwargs['priority_list'] = gen_priority_list(DBSession)
     kwargs['department_list'] = gen_department_list(DBSession)
     kwargs['domain_list'] = gen_domain_list(DBSession)
-    kwargs['p_type'] = 'Human'
+    # kwargs['p_type'] = 'Human'        # In this part, since we just have only one option "Element", so we skip this
     kwargs['prj_id'] = prj_id
     kwargs['time_errors'] = [""] * 4
     if request.method == 'POST':
         if request.form.get('team_info'):
             if request.form.get('team_info') == 'Change' and not kwargs['block_mod']:  # User changed Project static information
-                update_project(DBSession, prj_id, request.form)
+                update_team(DBSession, prj_id, request.form)
                 return redirect("/team_{0}".format(prj_id), 302)
             elif request.form.get('team_info') == 'Delete'and not kwargs['block_del']:  # User delete this project
                 del_project(DBSession, kwargs['team_info'][0])
@@ -447,32 +451,46 @@ def team_single(prj_id):
             else:
                 return "Error: team_info takes invalid value."
         elif request.form.get('plan_info'):
-            kwargs['p_type'] = request.form['plan_type']
+            # kwargs['p_type'] = request.form['plan_type']
             kwargs['time_line'] = [request.form['start_year'], request.form['start_week'],
                 request.form['end_year'], request.form['end_week']]
             valid_time_line, kwargs['time_errors'] = is_valid_time_line(kwargs['time_line'])
             kwargs['time_filter'] = request.form.get('time_filter')
             if not valid_time_line:  # Jump out when the time line is not valid.
                 return render_template('team_single.html', **kwargs)
-            if request.form.get('plan_info') == 'Edit':  # User tries to edit project plan.
-                if kwargs['p_type'] == "Human Allocation":
-                    url_template = "/allocation_plan_edit_{0}_{1}_{2}_{3}_{4}_{5}_{6}"
-                else:
-                    url_template = "/plan_edit_{0}_{1}_{2}_{3}_{4}_{5}_{6}"
+            if request.form.get('plan_info') == 'Edit':  # User tries to edit team plan.
+                # Since we only have one option "Element", we can skip the following selection
+
+                # if kwargs['p_type'] == "Human Allocation":
+                #     url_template = "/allocation_plan_edit_{0}_{1}_{2}_{3}_{4}_{5}_{6}"
+                # else:
+                #     url_template = "/plan_edit_{0}_{1}_{2}_{3}_{4}_{5}_{6}"
+
+                url_template = "/plan_edit_{0}_{1}_{2}_{3}_{4}_{5}_{6}"
                 if request.form.get('time_filter'):  # time_filter will be used in plan_edit
-                    url = url_template.format(prj_id, kwargs['p_type'], True, *valid_time_line)
+                    # url = url_template.format(prj_id, kwargs['p_type'], True, *valid_time_line)
+                    url = url_template.format(prj_id, 'Element', True, *valid_time_line)
                 else:
-                    url = url_template.format(prj_id, kwargs['p_type'], False, *valid_time_line)
+                    # url = url_template.format(prj_id, kwargs['p_type'], False, *valid_time_line)
+                    url = url_template.format(prj_id, 'Element', False, *valid_time_line)
                 return redirect(url, 302)
-            elif kwargs['p_type'] == 'Human':  # Human Plan
-                kwargs['data'], kwargs['column_names'] = query_human_plan(DBSession, prj_id, valid_time_line)
-            elif kwargs['p_type'] == 'Element':  # Element Plan
+            # Since we only have one option "Element", we can skip the following selection
+
+            # elif kwargs['p_type'] == 'Human':  # Human Plan
+            #     kwargs['data'], kwargs['column_names'] = query_human_plan(DBSession, prj_id, valid_time_line)
+            # elif kwargs['p_type'] == 'Element':  # Element Plan
+            #     if request.form.get('time_filter'):
+            #         kwargs['data'], kwargs['column_names'] = query_element_plan(DBSession, prj_id, valid_time_line)
+            #     else:
+            #         kwargs['data'], kwargs['column_names'] = query_element_plan(DBSession, prj_id)
+            # elif kwargs['p_type'] == 'Human Allocation':  # Human Allocation Plan
+            #     kwargs['data'], kwargs['column_names'] = get_allocation_plan_by_prjid(DBSession, valid_time_line, prj_id)
+
+            elif request.form.get('plan_info') == 'Query':
                 if request.form.get('time_filter'):
                     kwargs['data'], kwargs['column_names'] = query_element_plan(DBSession, prj_id, valid_time_line)
                 else:
                     kwargs['data'], kwargs['column_names'] = query_element_plan(DBSession, prj_id)
-            elif kwargs['p_type'] == 'Human Allocation':  # Human Allocation Plan
-                kwargs['data'], kwargs['column_names'] = get_allocation_plan_by_prjid(DBSession, valid_time_line, prj_id)
             else:
                 return "Oops, You should not see this page. There must be a bug. Tell Dewei"
         else:
@@ -489,32 +507,33 @@ def new_team():
     kwargs['employee_list'] = gen_employee_list(DBSession)
     kwargs['manager_list'] = gen_manager_list(DBSession)
     # kwargs['flag_list'] = gen_flag_list(DBSession)
-    kwargs['flag_list'] = ['PROJECT','TEAM']
-    kwargs['priority_list'] = gen_priority_list(DBSession)
-    kwargs['department_list'] = gen_department_list(DBSession)
-    kwargs['domain_list'] = gen_domain_list(DBSession)
+    # kwargs['flag_list'] = ['PROJECT','TEAM']
+    # kwargs['priority_list'] = gen_priority_list(DBSession)
+    # kwargs['department_list'] = gen_department_list(DBSession)
+    # kwargs['domain_list'] = gen_domain_list(DBSession)
     kwargs['no_input_error'] = ['','','']
     if request.method=='POST':
         # First collect user inputs.
         kwargs['name'] = name = normalize_db_value(request.form['name'])
-        kwargs['flag'] = request.form['flag']
-        kwargs['management'] = request.form['management']
+        # kwargs['flag'] = request.form['flag']
+        # kwargs['flag'] = ['TEAM']
+        # kwargs['management'] = request.form['management']
         kwargs['test_manager'] = request.form['test_manager']
         kwargs['implementation_manager'] = request.form['implementation_manager']
-        kwargs['code'] = request.form['code']
-        kwargs['priority'] = request.form['priority']
-        kwargs['department'] = request.form['department']
-        kwargs['domain'] = request.form['domain']
-        kwargs['date_el'] = request.form['date_el']
+        # kwargs['code'] = request.form['code']
+        # kwargs['priority'] = request.form['priority']
+        # kwargs['department'] = request.form['department']
+        # kwargs['domain'] = request.form['domain']
+        # kwargs['date_el'] = request.form['date_el']
         kwargs['note'] = request.form['note']
         kwargs['active'] = request.form.get('active')
         # Then verify the inputs
         valid_name, kwargs['result_msg'] = is_valid_name(kwargs['name'],
             name_list=gen_project_list(DBSession), is_project=True)
-        valid_input, kwargs['no_input_error'] = valid_project_input(request.form)
+        valid_input, kwargs['no_input_error'] = valid_team_input(request.form)
         # Update DB if name is valid.
         if valid_name and valid_input:
-            kwargs['up_msg'] = add_project(DBSession, request.form)
+            kwargs['up_msg'] = add_team(DBSession, request.form)
     return render_template('new_team.html', **kwargs)
 
 

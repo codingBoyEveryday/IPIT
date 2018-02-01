@@ -177,6 +177,27 @@ def valid_project_input(form):
     
     return is_valid, input_errors
 
+
+def valid_team_input(form):
+    """for page /new_project
+    Check whether input is given on the fields where it is mandatory
+    output: boolean, error message
+    """
+
+    is_valid = True
+    input_errors = ['', '', '']
+    # if form['date_el'] == '':
+    #     input_errors[0] = 'Please select a date_el'
+    #     is_valid = False
+    # if form['note'] == '':
+    #     input_errors[1] = 'Please select a note'
+    #     is_valid = False
+    # if form['active'] == '':
+    #     input_errors[2] = 'Please select a active'
+    #     is_valid = False
+
+    return is_valid, input_errors
+
 def project_selected(form):
     """for page /change_requests
     Evaluates whether a project is selected"""
@@ -816,7 +837,7 @@ def update_project(DBSession, prj_id, form):
     project = session.query(Projects).filter_by(project_id=prj_id).first()
     project.name = normalize_db_value(form['name'])
     project.management = form['management']
-    project.flag = form['flag']
+    # project.flag = form['flag']
     project.active = (form['active'] == 'active')
     project.note = form['note']
     print repr(form['note'])
@@ -858,6 +879,66 @@ def update_project(DBSession, prj_id, form):
         succ = False
     session.close()
     return succ
+
+
+def update_team(DBSession, prj_id, form):
+    """
+    Supporting function for page handler /project_<int:prj_id>
+    Used for updating a certain project.
+    Inputs:
+        DBSession: sqlalchemy session maker.
+        prj_id: int
+        form: dictionary. Get from page request. It contains all info of the project.
+    Outputs:
+        bool
+    """
+    session = DBSession()
+    team = session.query(Projects).filter_by(project_id=prj_id).first()
+    team.name = normalize_db_value(form['name'])
+    # team.management = form['management']
+    # project.flag = form['flag']
+    team.active = (form['active'] == 'active')
+    team.note = form['note']
+    print repr(form['note'])
+    # if form['department']:  # Consider None
+    #     team.department_id = (session.query(Departments.department_id).
+    #     filter(Departments.department == form['department'])
+    #     .first()[0])
+    if form['test_manager']:
+        team.test_manager_id = (session.query(Employees.employee_id).
+            filter(Employees.name == form['test_manager']).first()[0]
+            )
+    else:
+        team.test_manager_id = None
+
+    if form['implementation_manager']:
+        team.implementation_manager_id = (session.query(Managers.manager_id).
+            filter(Managers.name == form['implementation_manager']).first()[0]
+            )
+    else:
+        team.implementation_manager_id = None
+
+    # if form['domain']:
+    #     team.domain_id = (session.query(Domains.domain_id).
+    #         filter(Domains.domain == form['domain']).first()[0]
+    #         )
+    # team.priority_id = (session.query(Priorities.priority_id).
+    #     filter(Priorities.priority == form['priority']).first()[0]
+    #     )
+    # team.code = form['code']
+
+    if form['date_el']:
+        team.date_EL = convert_date_format(form['date_el'])
+
+    try:
+        session.commit()
+        succ = True
+    except:
+        session.rollback()
+        succ = False
+    session.close()
+    return succ
+
 
 def update_change_request(DBSession, req_id, form):
     """
@@ -1432,7 +1513,8 @@ def add_project(DBSession, form):
     new_prj.management = form['management']
     new_prj.note = form['note']
     new_prj.code = form['code']
-    new_prj.flag = form['flag']
+    # new_prj.flag = form['flag']
+    new_prj.flag = 'PROJECT'    # The flag will be fixed as 'PROJECT' here.
     if form['date_el']:
         new_prj.date_EL = convert_date_format(form['date_el'])
 
@@ -1455,6 +1537,69 @@ def add_project(DBSession, form):
         session.add(new_prj)
         session.commit()
         msg = u"Successfully added project {}.".format(normalize_db_value(form['name']))
+    except:
+        session.rollback()
+        msg = "ERR: {}".format(sys.exc_info()[0])
+    session.close()
+    return msg
+
+
+def add_team(DBSession, form):
+    """
+    Description:
+        Supporting function for page handler /new_project
+        Used for creating a new project.
+    Inputs:
+        DBSession: session maker.
+        form: dictionary. Originally collected from "new_project.html"
+        The form have following keys:
+        name, management, test_manager, code, priority, department, domain, date_el, note, active
+        All value type is string. Empty value is "".
+    Outputs:
+        message.
+    """
+    if not form.get('name'):
+        return "ERROR: Project Name can't be empty."
+
+    session = DBSession()
+    new_team = Projects(name= normalize_db_value(form['name']), active=(form.get('active') == 'active'))
+    # new_team.management = form['management']
+    # new_team.management = ''
+    new_team.note = form['note']
+    # new_team.code = ''
+    # new_prj.flag = form['flag']
+    new_team.flag = 'TEAM'    # The flag will be fixed as 'TEAM' here.
+
+    # if form['date_el']:
+    #     new_team.date_EL = convert_date_format(form['date_el'])
+
+    # if form.get('department'):
+    #     new_team.department_id = session.query(Departments.department_id).filter(
+    #         Departments.department == form['department']).first()[0]
+    # new_team.department_id = ''
+
+    if form.get('test_manager'):
+        new_team.test_manager_id = session.query(Employees.employee_id).filter(
+            Employees.name == form['test_manager']).first()[0]
+
+    if form.get('implementation_manager'):
+        new_team.implementation_manager_id = session.query(Managers.manager_id).filter(
+            Managers.name == form['implementation_manager']).first()[0]
+
+    # if form.get('domain'):
+    #     new_team.domain_id = session.query(Domains.domain_id).filter(
+    #         Domains.domain == form['domain']).first()[0]
+    # new_team.domain_id = ''
+
+    # if form.get('priority'):
+    #     new_team.priority_id = session.query(Priorities.priority_id).filter(
+    #         Priorities.priority == form['priority']).first()[0]
+    # new_team.priority_id = ''
+
+    try:
+        session.add(new_team)
+        session.commit()
+        msg = u"Successfully added team {}.".format(normalize_db_value(form['name']))
     except:
         session.rollback()
         msg = "ERR: {}".format(sys.exc_info()[0])
@@ -2404,6 +2549,9 @@ def get_project_info(DBSession, prj_id=None):
     nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
                Priorities.priority, Departments.department, Domains.domain,
                Projects.date_EL, Projects.active, Projects.flag]
+    # nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
+    #            Priorities.priority, Departments.department, Domains.domain,
+    #            Projects.date_EL, Projects.active]
     # Depends on the situation, modify the query inputs.
     # print nkwargs[0]
     if prj_id:
@@ -2440,6 +2588,9 @@ def get_team_info(DBSession, prj_id=None):
     nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
                Priorities.priority, Departments.department, Domains.domain,
                Projects.date_EL, Projects.active, Projects.flag]
+    # nkwargs = [Projects.name, Projects.management, Employees.name, Managers.name, Projects.code,
+    #            Priorities.priority, Departments.department, Domains.domain,
+    #            Projects.date_EL, Projects.active]
     # Depends on the situation, modify the query inputs.
     # print nkwargs[0]
     if prj_id:
@@ -2830,8 +2981,8 @@ def gen_request_report(DBSession, rep, contain_id=True):
         data = cross_tab(d, yw_list, 9)  
 
     # Prepare
-    column_names = (['Description', 'Applicant', 'Project', 'Impact', 'Node', 'Hostname', 'Start date', 'End date', 'Note', 'Status', 'Testmanager',
-     'Conflicting project'] + [" " + str(x[1]) + '-' + str(x[0]) for x in yw_list])  # Use Swaen's format.
+    column_names = (['Description', 'Applicant', 'Project/Team', 'Impact', 'Node', 'Hostname', 'Start date', 'End date', 'Note', 'Status', 'Testmanager',
+     'Conflicting project/team'] + [" " + str(x[1]) + '-' + str(x[0]) for x in yw_list])  # Use Swaen's format.
 
     return data, column_names, update_msg
 
